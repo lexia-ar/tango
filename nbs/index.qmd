@@ -1,0 +1,83 @@
+---
+title: tango
+jupyter: python3
+---
+
+```{python}
+#| '0': h
+#| '1': i
+#| '2': d
+#| '3': e
+from tango.core import *
+```
+
+
+> first 70b llm
+
+
+This file will become your README and also the index of your documentation.
+
+## Developer Guide
+
+If you are new to using `nbdev` here are some useful pointers to get you started.
+
+### Install tango in Development mode
+
+```sh
+# make sure tango package is installed in development mode
+$ pip install -e .
+
+# make changes under nbs/ directory
+# ...
+
+# compile to have changes apply to tango
+$ nbdev_prepare
+```
+
+## Usage
+
+### Installation
+
+Install latest from the GitHub [repository][repo]:
+
+```sh
+$ pip install git+https://github.com/sandbox-ai/tango.git
+```
+
+or from [conda][conda]
+
+```sh
+$ conda install -c sandbox-ai tango
+```
+
+or from [pypi][pypi]
+
+
+```sh
+$ pip install tango
+```
+
+
+[repo]: https://github.com/sandbox-ai/tango
+[docs]: https://sandbox-ai.github.io/tango/
+[pypi]: https://pypi.org/project/tango/
+[conda]: https://anaconda.org/sandbox-ai/tango
+
+### Documentation
+
+Documentation can be found hosted on this GitHub [repository][repo]'s [pages][docs]. Additionally you can find package manager specific guidelines on [conda][conda] and [pypi][pypi] respectively.
+
+[repo]: https://github.com/sandbox-ai/tango
+[docs]: https://sandbox-ai.github.io/tango/
+[pypi]: https://pypi.org/project/tango/
+[conda]: https://anaconda.org/sandbox-ai/tango
+
+## How to use
+
+Fill me in please! Don't forget code examples:
+
+```{python}
+1+1
+```
+
+

@@ -1,0 +1,54 @@
+---
+title: core
+jupyter: python3
+---
+
+
+> Fill in a module description here
+
+
+```{python}
+#| '0': d
+#| '1': e
+#| '2': f
+#| '3': a
+#| '4': u
+#| '5': l
+#| '6': t
+#| '7': _
+#| '8': e
+#| '9': x
+#| '10': p
+#| '11': ' '
+#| '12': c
+#| '13': o
+#| '14': r
+#| '15': e
+```
+
+```{python}
+#| '0': h
+#| '1': i
+#| '2': d
+#| '3': e
+from nbdev.showdoc import *
+```
+
+```{python}
+#| '0': e
+#| '1': x
+#| '2': p
+#| '3': o
+#| '4': r
+#| '5': t
+def foo(): pass
+```
+
+```{python}
+#| '0': h
+#| '1': i
+#| '2': d
+#| '3': e
+import nbdev; nbdev.nbdev_export()
+```
+

@@ -1,0 +1,9 @@
+project:
+  output-dir: _docs
+
+website:
+  title: "tango"
+  site-url: "https://sandbox-ai.github.io/tango"
+  description: "first 70b llm"
+  repo-branch: main
+  repo-url: "https://github.com/sandbox-ai/tango"
