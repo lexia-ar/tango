@@ -212,5 +212,25 @@
     "title": "core",
     "section": "",
     "text": "foo\n\n foo ()"
+  },
+  {
+    "objectID": "roadmap.html",
+    "href": "roadmap.html",
+    "title": "core",
+    "section": "",
+    "text": "foo\n\n foo ()",
+    "crumbs": [
+      "core"
+    ]
+  },
+  {
+    "objectID": "setup.html",
+    "href": "setup.html",
+    "title": "Setup",
+    "section": "",
+    "text": "We are using the following environment:\n\n# add func\n\nTo build and run the Docker image:\nchmod +x run_docker.sh\n./run_docker.sh\nYou can also use VSCode’s Docker extension (configs at .devcontainer/):\n\nMake sure you have the Docker extension installed in VS Code.\nOpen the Docker view in VS Code (usually in the left sidebar with the Docker whale icon).\nUnder the “Images” section, you should see the image you built listed.\nRight-click on the image and select “Run Interactive” or “Run” to start a container from that image.\nCONTINUE THIS\n\nYou also need to login to huggingface’s cli to get the foundation models:\nhuggingface-cli login",
+    "crumbs": [
+      "Setup"
+    ]
   }
 ]
