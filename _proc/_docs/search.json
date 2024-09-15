@@ -1,0 +1,216 @@
+[
+  {
+    "objectID": "core.html",
+    "href": "core.html",
+    "title": "core",
+    "section": "",
+    "text": "foo\n\n foo ()",
+    "crumbs": [
+      "core"
+    ]
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "tango",
+    "section": "",
+    "text": "This file will become your README and also the index of your documentation.",
+    "crumbs": [
+      "tango"
+    ]
+  },
+  {
+    "objectID": "index.html#developer-guide",
+    "href": "index.html#developer-guide",
+    "title": "tango",
+    "section": "Developer Guide",
+    "text": "Developer Guide\nIf you are new to using nbdev here are some useful pointers to get you started.\n\nInstall tango in Development mode\n# make sure tango package is installed in development mode\n$ pip install -e .\n\n# make changes under nbs/ directory\n# ...\n\n# compile to have changes apply to tango\n$ nbdev_prepare",
+    "crumbs": [
+      "tango"
+    ]
+  },
+  {
+    "objectID": "index.html#usage",
+    "href": "index.html#usage",
+    "title": "tango",
+    "section": "Usage",
+    "text": "Usage\n\nInstallation\nInstall latest from the GitHub repository:\n$ pip install git+https://github.com/sandbox-ai/tango.git\nor from conda\n$ conda install -c sandbox-ai tango\nor from pypi\n$ pip install tango\n\n\nDocumentation\nDocumentation can be found hosted on this GitHub repository’s pages. Additionally you can find package manager specific guidelines on conda and pypi respectively.",
+    "crumbs": [
+      "tango"
+    ]
+  },
+  {
+    "objectID": "index.html#how-to-use",
+    "href": "index.html#how-to-use",
+    "title": "tango",
+    "section": "How to use",
+    "text": "How to use\nFill me in please! Don’t forget code examples:\n\n1+1\n\n2",
+    "crumbs": [
+      "tango"
+    ]
+  },
+  {
+    "objectID": "zz_template.html",
+    "href": "zz_template.html",
+    "title": "core",
+    "section": "",
+    "text": "foo\n\n foo ()",
+    "crumbs": [
+      "core"
+    ]
+  },
+  {
+    "objectID": "designdoc.html",
+    "href": "designdoc.html",
+    "title": "Design Document",
+    "section": "",
+    "text": "Include team suggestions into tango 70b design doc.",
+    "crumbs": [
+      "Design Document"
+    ]
+  },
+  {
+    "objectID": "designdoc.html#introduction",
+    "href": "designdoc.html#introduction",
+    "title": "Design Document",
+    "section": "1. Introduction",
+    "text": "1. Introduction\n\nProject Overview\nProject Tango 70-b aims to develop and train the first large language model (LLM) specifically designed for and by Latin Americans, with a focus on Spanish language content. This ambitious project seeks to democratize AI technology in the region by leveraging consumer-grade hardware and innovative training techniques.\nKey aspects of the project include:\n\nTraining a 70 billion parameter LLM using consumer GPUs (2x NVIDIA RTX 3090).\nImplementing advanced techniques such as QLoRA, FSDP, and Half Quadratic Quantization to enable efficient training on limited hardware.\nUtilizing Latin American-focused datasets, including Wikipedia content, literature, and historical and legal documents.\nExploring the economic and geopolitical implications of locally developed and hosted AI infrastructure in Latin America.\nDocumenting and open-sourcing the entire process to foster AI development in the region.\nInvestigating future possibilities for decentralized AI serving and smartphone-based AI applications in Latin America.\n\nThis project not only aims to create a powerful language model but also to spark discussions about AI sovereignty, economic feasibility, and the potential for Latin America to become a significant player in the global AI landscape. By combining technical innovation with strategic foresight, Tango 70-b seeks to position Argentina and Latin America at the forefront of AI development and application.\n\n\nGoals and Objectives\n\nCreate a Proof of Concept for training highly capable AI on consumer GPUs, defined as an LLM that achieves an MMLU (or other metric) higher than X.\nServe the first AI in Argentina at a cost proportional to local salary ranges/GDP per capita/minimum wage.\nAssess the economics of training, hosting, and serving LLMs from and for Latin America.\nGain hands-on experience in training sota LLMs.\nKickstart the discussion on the importance of training and serving AI in Latin America, including social, economic, and geopolitical aspects.\nCement the AI scene in Argentina and Latin America.\nPosition Argentina as the 4th AI pole globally.\n\n\n\nScope of the Project\n\nFocus on Spanish language and Latin American content.\nUtilize consumer-grade hardware for training and serving.\nDevelop and document the process for future replication.\nExplore the specialized LLM space rather than competing with foundation models.\n\n\n\nNon-Objectives\n\nTargeting Spanish from Spain or other non-Latin American Spanish-speaking regions.\nCompeting with big tech companies’ centralized serving approach.\nDeveloping foundation models.",
+    "crumbs": [
+      "Design Document"
+    ]
+  },
+  {
+    "objectID": "designdoc.html#model-architecture",
+    "href": "designdoc.html#model-architecture",
+    "title": "Design Document",
+    "section": "2. Model Architecture",
+    "text": "2. Model Architecture\n\nBase Model Selection\n[To be determined]\n\n\nModel Size\n70 billion parameters, potentially using distillation or pruning techniques.\n\n\nArchitecture Modifications\nImplement QLoRA (Quantized Low-Rank Adaptation) and FSDP (Fully Sharded Data Parallel) to enable training on consumer GPUs.",
+    "crumbs": [
+      "Design Document"
+    ]
+  },
+  {
+    "objectID": "designdoc.html#training-data",
+    "href": "designdoc.html#training-data",
+    "title": "Design Document",
+    "section": "3. Training Data",
+    "text": "3. Training Data\n\nData Sources\n\nWikipedia content for Latin American countries (3 levels of links)\nLatin American literature and books\nConstitutions of Latin American countries\nSomosNLP dataset\nOpenHermes datasets\n\n\n\nData Preparation and Cleaning\nwe will mimick HuggingFace’s FineWeb-Edu approach\n\n\nData Format and Structure\nwe will mimick HuggingFace’s FineWeb-Edu approach",
+    "crumbs": [
+      "Design Document"
+    ]
+  },
+  {
+    "objectID": "designdoc.html#training-proces",
+    "href": "designdoc.html#training-proces",
+    "title": "Design Document",
+    "section": "4. Training Proces",
+    "text": "4. Training Proces\nWe fine-tune, we do not pre-train.\n\nHardware Requirements\n2x NVIDIA RTX 3090 with 24GB VRAM each\n\n\nSoftware Stack\n\nPyTorch with FSDP\nQLoRA\nbitsandbyte\nPEFT\nTransformers\nAccelerate\n\n\n\nTraining Techniques\n\n1. Quantization (QLoRA)\n\nUtilize 4-bit quantization to reduce model memory footprint by ~75%\nImplement QLoRA, combining quantization with Low-Rank Adaptation\nUse a 4-bit quantized frozen base model with trainable low-rank adapters\nEmploy 4-bit NormalFloat (NF4) data type for normally distributed weights\nImplement double quantization to further reduce memory usage\n\n\n\n2. Fully Sharded Data Parallel (FSDP)\n\nShard model parameters, optimizer states, and gradients across multiple GPUs\nPerform all-gather operations during forward pass\nUse reduce-scatter operations for gradient synchronization during backward pass\n\n\n\n3. Gradient Checkpointing\n\nTrade computation for memory by not storing all activations\nSave checkpoints and recompute activations as needed during backward pass\n\n\n\n4. CPU Offloading\n\nStore some model parameters and optimizer states in CPU RAM when not in use\nSignificantly reduce GPU memory requirements\n\n\n\n5. Flash Attention\n\nImplement optimized attention computation using memory-efficient CUDA kernels\n\n\n\n6. Half Quadratic Quantization (HQQ)\n\nUtilize HQQ as an alternative or complement to standard 4-bit quantization\nMinimize weight errors using a sparsity-promoting loss function\nEmploy a half-quadratic solver for efficient optimization\n\n\n\nChallenges and Considerations\n\nTraining will be slower compared to data center GPUs\nPotential loss in model quality due to quantization\nBalancing sequence length and batch size within memory constraints\nCareful management of quantization state and FSDP synchronization",
+    "crumbs": [
+      "Design Document"
+    ]
+  },
+  {
+    "objectID": "designdoc.html#evaluation-metrics",
+    "href": "designdoc.html#evaluation-metrics",
+    "title": "Design Document",
+    "section": "5. Evaluation Metrics",
+    "text": "5. Evaluation Metrics\n\nPerformance Metrics\nWe will use a variety of benchmarks to evaluate our model’s performance. We will not be able to compete (yet) with the leading models like claude, or gemini, but if we can get to within 10% of their perf, that’s good enough as a starting point.\n\n\nEvaluation Datasets and Benchmarks\nWe will use the following datasets and benchmarks for evaluation:\n\nMMBench v1.1\nMMStar\nMMMU_VAL\nMathVista_MINI\nHallusionBench\nAI2D_TEST\nOCRBench\nMMVet\n\nHere are the benchmark scores of leading models for reference:\n\n\n\n\n\n\n\n\n\n\nBenchmark\nGPT-4o-20240513\nClaude3.5-Sonnet\nGemini-1.5-Pro\nGPT-4v-20240409\n\n\n\n\nOverall Rank\n1\n2\n3\n4\n\n\nAvg. Score\n69.9\n67.9\n64.4\n63.5\n\n\nMMBench v1.1\n82.2\n78.5\n73.9\n79.8\n\n\nMMStar\n63.9\n62.2\n59.1\n56.0\n\n\nMMMU_VAL\n69.2\n65.9\n60.6\n61.7\n\n\nMathVista_MINI\n61.3\n61.6\n57.7\n54.7\n\n\nHallusionBench\n55.0\n49.9\n45.6\n43.9\n\n\nAI2D_TEST\n84.6\n80.2\n79.1\n78.6\n\n\nOCRBench\n736\n788\n754\n656\n\n\nMMVet\n69.1\n66\n64\n67.5",
+    "crumbs": [
+      "Design Document"
+    ]
+  },
+  {
+    "objectID": "designdoc.html#ethical-considerations",
+    "href": "designdoc.html#ethical-considerations",
+    "title": "Design Document",
+    "section": "6. Ethical Considerations",
+    "text": "6. Ethical Considerations\nNone to begin with, but we aim to open up the discussion by reaching out to researchers and thinkers.\n\nBias Mitigation Strategies\n[To be developed]\n\n\nSafety Measures\nNone, we don’t go into that hype and we don’t want regulatory capture. + guardrails can be added to the systems that build upon tango (e.g., nvidia’s nemo guardrails)\n\n\nPrivacy Considerations\n[To be developed]",
+    "crumbs": [
+      "Design Document"
+    ]
+  },
+  {
+    "objectID": "designdoc.html#deployment-and-inference",
+    "href": "designdoc.html#deployment-and-inference",
+    "title": "Design Document",
+    "section": "7. Deployment and Inference",
+    "text": "7. Deployment and Inference\n\nDeployment Environment\nExplore decentralized and distributed hosting options suitable for the (mostly undeveloped) Latin American infrastructure.\n\n\nInference Optimization\nImplement quantization techniques like Half Quadratic Quantization (HQQ) for efficient inference.\n\n\nScaling Considerations\nsee Future Considerations on architectures that scale sub-linearly with context lenght.",
+    "crumbs": [
+      "Design Document"
+    ]
+  },
+  {
+    "objectID": "designdoc.html#maintenance-and-iteration",
+    "href": "designdoc.html#maintenance-and-iteration",
+    "title": "Design Document",
+    "section": "8. Maintenance and Iteration",
+    "text": "8. Maintenance and Iteration\n[To be determined]\n\nMonitoring Plan\nWeights & Biases\n\n\nVersion Control\nGithub",
+    "crumbs": [
+      "Design Document"
+    ]
+  },
+  {
+    "objectID": "designdoc.html#timeline-and-milestones",
+    "href": "designdoc.html#timeline-and-milestones",
+    "title": "Design Document",
+    "section": "9. Timeline and Milestones",
+    "text": "9. Timeline and Milestones\n\n2024\n\ntest runs until september the 1st\ndata scrapping throught the week of september the 2nd\ntrain tango-70b v0.0.1 over the september 7th-8th weekend\nsoft release (huggingface, linkedin) on september 9th\nfull release on october the 1st\n\n2025\n\n[To be determined]",
+    "crumbs": [
+      "Design Document"
+    ]
+  },
+  {
+    "objectID": "designdoc.html#resources-and-budget",
+    "href": "designdoc.html#resources-and-budget",
+    "title": "Design Document",
+    "section": "10. Resources and Budget",
+    "text": "10. Resources and Budget\n\nTeam Composition\nlexia x sandbox\n\n\nComputing Resources\nDual RTX 3090 setup, with potential for cloud resources (e.g., Runpod Community Cloud at ~$0.60/hour)\n\n\nEstimated Costs\nNone if fully local, [To be calculated] if partially on cloud",
+    "crumbs": [
+      "Design Document"
+    ]
+  },
+  {
+    "objectID": "designdoc.html#looking-forward",
+    "href": "designdoc.html#looking-forward",
+    "title": "Design Document",
+    "section": "11. Looking Forward",
+    "text": "11. Looking Forward\n\nFuture Considerations\n\nExplore more cost-effective architectures (sub-linear scaling of context) such as State Space Models (Mamba and Jamba) and RNNs (RWKV)\nInvestigate the potential for running AI on smartphones in Latin America over the next 2-4 years.",
+    "crumbs": [
+      "Design Document"
+    ]
+  },
+  {
+    "objectID": "designdoc.html#communication-and-outreach",
+    "href": "designdoc.html#communication-and-outreach",
+    "title": "Design Document",
+    "section": "12. Communication and Outreach",
+    "text": "12. Communication and Outreach\n\nTechnical Paper/Post\nDocument the entire process, challenges, and solutions for the Latin American AI community.\n\n\nNews article\n“Argentinians build the first AI of Latin America” - highlighting cultural inclusions (e.g., writings from San Martín, Cortázar), societal impact, geopolitical derivations.\n\n\n“The Geopolitics of LLMs and can Argentina be the next big AI player?”\ndiscussing the potential and challenges for Argentina in the global AI landscape.\n\n(some) of the questions to be answered:\n\nAre there political or geographical reasons for argentina and latam to develop and host it’s own AI?\nCan foreign AI properly represent our values and interests as latinoamericans?\nCan foreignly trained and/or served AI be properly in control of latam owners?\n\n\n\n\n“The economics of hosting and serving LLMs in Latin America”\nsxploring the feasibility and implications of local (and potentially distributed and decentralized) AI infrastructure.\n\n(some) of the questions to be answered:\n\nIs it convenient to host llms on latin america? why not just pay the us, france or china to serve them for us?\nIf it’s not economically convenient to serve them here, why is it that the case? are we missing a hidden cost or benefit? e.g., progressively buying/getting the compute to build AI infrastructure in latin america.\nIf most AI services cost 20 USD per month, why should latam countries pay that? can we get a business going by charging the equivalent on % of minimum wage? –&gt; e.g. if 20USD per month is say 2% of minimum wage in the US, can we get a business going by charging 2% of Argentina/Latam’s minimum wage? buying compute is certainly the same cost -given we can get some gpus on our hands- but certainly the cost of running the compute should be cheaper. (and most likely we should go for something like ROCm instead of CUDA)\nAre there economic reasons/drivers to develp AI infrastructure in Latam? is it sortof the equivalent to energetic selfsustainability? What other drivers are there? geopolitical ones? War/Military ones? what happens if a latam country goes to war or get’s into political conflict with it’s provider of AI infrastructure? isn’t it too risky to not have our own infrastructure?\nIs de-centralization the solution to cheap AI serving? since we don’t have the money to pay for everyones compute, then we should just use the decentralized and distributed compute on everyone’s phone? Can we expect to have enough power on our smartphones to run useful AI on our phones? if not in 2 years (Moore’s law?), in how many years? Can Argentina and Latam prepare for when this happens?",
+    "crumbs": [
+      "Design Document"
+    ]
+  },
+  {
+    "objectID": "training.html",
+    "href": "training.html",
+    "title": "Training",
+    "section": "",
+    "text": "foo\n\n foo ()",
+    "crumbs": [
+      "Training"
+    ]
+  },
+  {
+    "objectID": "zz_template copy 2.html",
+    "href": "zz_template copy 2.html",
+    "title": "core",
+    "section": "",
+    "text": "foo\n\n foo ()"
+  },
+  {
+    "objectID": "zz_template copy.html",
+    "href": "zz_template copy.html",
+    "title": "core",
+    "section": "",
+    "text": "foo\n\n foo ()"
+  }
+]

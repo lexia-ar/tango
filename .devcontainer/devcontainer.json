@@ -1,0 +1,15 @@
+{
+    "name": "Tango PyTorch CUDA",
+    "dockerFile": "../Dockerfile",
+    "image": "tango-70b:v0.0.1",
+    "runArgs": ["--gpus", "all"],
+    "forwardPorts": [8888],
+    "extensions": [
+        "ms-python.python",
+        "ms-toolsai.jupyter"
+    ],
+    "settings": {
+        "python.defaultInterpreterPath": "/usr/bin/python3"
+    },
+    "postCreateCommand": "jupyter notebook --ip=0.0.0.0 --port=8888 --no-browser --allow-root"
+}
