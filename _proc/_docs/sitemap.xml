@@ -1,43 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://sandbox-ai.github.io/tango/core.html</loc>
-    <lastmod>2024-09-14T15:47:41.445Z</lastmod>
-  </url>
-  <url>
-    <loc>https://sandbox-ai.github.io/tango/index.html</loc>
-    <lastmod>2024-09-15T17:07:48.412Z</lastmod>
-  </url>
-  <url>
     <loc>https://sandbox-ai.github.io/tango/zz_template.html</loc>
-    <lastmod>2024-09-15T17:07:48.412Z</lastmod>
-  </url>
-  <url>
-    <loc>https://sandbox-ai.github.io/tango/designdoc.html</loc>
-    <lastmod>2024-09-15T17:07:48.412Z</lastmod>
-  </url>
-  <url>
-    <loc>https://sandbox-ai.github.io/tango/training.html</loc>
-    <lastmod>2024-09-15T17:07:48.412Z</lastmod>
+    <lastmod>2024-09-15T18:22:18.531Z</lastmod>
   </url>
   <url>
     <loc>https://sandbox-ai.github.io/tango/data.html</loc>
-    <lastmod>2024-09-15T17:07:48.412Z</lastmod>
-  </url>
-  <url>
-    <loc>https://sandbox-ai.github.io/tango/zz_template copy 2.html</loc>
-    <lastmod>2024-09-14T15:54:46.325Z</lastmod>
+    <lastmod>2024-09-15T18:22:18.501Z</lastmod>
   </url>
   <url>
     <loc>https://sandbox-ai.github.io/tango/setup.html</loc>
-    <lastmod>2024-09-15T17:08:30.803Z</lastmod>
+    <lastmod>2024-09-15T18:22:18.481Z</lastmod>
   </url>
   <url>
-    <loc>https://sandbox-ai.github.io/tango/zz_template copy.html</loc>
-    <lastmod>2024-09-14T15:54:45.545Z</lastmod>
+    <loc>https://sandbox-ai.github.io/tango/designdoc.html</loc>
+    <lastmod>2024-09-15T18:22:18.471Z</lastmod>
   </url>
   <url>
     <loc>https://sandbox-ai.github.io/tango/roadmap.html</loc>
-    <lastmod>2024-09-15T17:07:48.412Z</lastmod>
+    <lastmod>2024-09-15T18:22:18.491Z</lastmod>
+  </url>
+  <url>
+    <loc>https://sandbox-ai.github.io/tango/training.html</loc>
+    <lastmod>2024-09-15T18:22:18.521Z</lastmod>
+  </url>
+  <url>
+    <loc>https://sandbox-ai.github.io/tango/index.html</loc>
+    <lastmod>2024-09-15T18:26:07.511Z</lastmod>
   </url>
 </urlset>

@@ -1,4 +1,12 @@
-nbdev
+torch
+torchvision
+torchaudio
+llama-recipes
+fastcore
+transformers!=4.38.*,!=4.39.*
 jupyter
+bitsandbytes
+accelerate
+datasets
 wandb
-
+safetensors

@@ -1,0 +1,10 @@
+website:
+  sidebar:
+    contents:
+      - index.ipynb
+      - 00_designDoc.ipynb
+      - 00_roadmap.ipynb
+      - 01_setup.ipynb
+      - 02_data.ipynb
+      - 03_training.ipynb
+      - zz_template.ipynb

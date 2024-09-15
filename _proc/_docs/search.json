@@ -1,62 +1,22 @@
 [
   {
-    "objectID": "core.html",
-    "href": "core.html",
-    "title": "core",
-    "section": "",
-    "text": "foo\n\n foo ()",
-    "crumbs": [
-      "core"
-    ]
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "tango",
-    "section": "",
-    "text": "This file will become your README and also the index of your documentation.",
-    "crumbs": [
-      "tango"
-    ]
-  },
-  {
-    "objectID": "index.html#developer-guide",
-    "href": "index.html#developer-guide",
-    "title": "tango",
-    "section": "Developer Guide",
-    "text": "Developer Guide\nIf you are new to using nbdev here are some useful pointers to get you started.\n\nInstall tango in Development mode\n# make sure tango package is installed in development mode\n$ pip install -e .\n\n# make changes under nbs/ directory\n# ...\n\n# compile to have changes apply to tango\n$ nbdev_prepare",
-    "crumbs": [
-      "tango"
-    ]
-  },
-  {
-    "objectID": "index.html#usage",
-    "href": "index.html#usage",
-    "title": "tango",
-    "section": "Usage",
-    "text": "Usage\n\nInstallation\nInstall latest from the GitHub repository:\n$ pip install git+https://github.com/sandbox-ai/tango.git\nor from conda\n$ conda install -c sandbox-ai tango\nor from pypi\n$ pip install tango\n\n\nDocumentation\nDocumentation can be found hosted on this GitHub repository’s pages. Additionally you can find package manager specific guidelines on conda and pypi respectively.",
-    "crumbs": [
-      "tango"
-    ]
-  },
-  {
-    "objectID": "index.html#how-to-use",
-    "href": "index.html#how-to-use",
-    "title": "tango",
-    "section": "How to use",
-    "text": "How to use\nFill me in please! Don’t forget code examples:\n\n1+1\n\n2",
-    "crumbs": [
-      "tango"
-    ]
-  },
-  {
     "objectID": "zz_template.html",
     "href": "zz_template.html",
-    "title": "core",
+    "title": "template nb",
     "section": "",
     "text": "foo\n\n foo ()",
     "crumbs": [
-      "core"
+      "template nb"
+    ]
+  },
+  {
+    "objectID": "setup.html",
+    "href": "setup.html",
+    "title": "Setup",
+    "section": "",
+    "text": "We are using the following environment:\n\n# add func\n\nTo build and run the Docker image:\nchmod +x run_docker.sh\n./run_docker.sh\nYou can also use VSCode’s Docker extension (configs at .devcontainer/):\n\nMake sure you have the Docker extension installed in VS Code.\nOpen the Docker view in VS Code (usually in the left sidebar with the Docker whale icon).\nUnder the “Images” section, you should see the image you built listed.\nRight-click on the image and select “Run Interactive” or “Run” to start a container from that image.\nCONTINUE THIS\n\nYou also need to login to huggingface’s cli to get the foundation models:\nhuggingface-cli login",
+    "crumbs": [
+      "Setup"
     ]
   },
   {
@@ -64,7 +24,7 @@
     "href": "designdoc.html",
     "title": "Design Document",
     "section": "",
-    "text": "Include team suggestions into tango 70b design doc.",
+    "text": "Include team suggestions into tango 70b design doc (suggestions at Notion).",
     "crumbs": [
       "Design Document"
     ]
@@ -190,47 +150,273 @@
     ]
   },
   {
+    "objectID": "roadmap.html",
+    "href": "roadmap.html",
+    "title": "Roadmap",
+    "section": "",
+    "text": "[] setup process\n[] training process\n[] benchmarks\n[] data\n\nhttps://developer.nvidia.com/cuda-gpus",
+    "crumbs": [
+      "Roadmap"
+    ]
+  },
+  {
     "objectID": "training.html",
     "href": "training.html",
     "title": "Training",
     "section": "",
-    "text": "foo\n\n foo ()",
+    "text": "Training a 70 billion parameter (70B) language model at home requires combining several advanced techniques to overcome memory and computational constraints.",
     "crumbs": [
       "Training"
     ]
   },
   {
-    "objectID": "zz_template copy 2.html",
-    "href": "zz_template copy 2.html",
-    "title": "core",
-    "section": "",
-    "text": "foo\n\n foo ()"
-  },
-  {
-    "objectID": "zz_template copy.html",
-    "href": "zz_template copy.html",
-    "title": "core",
-    "section": "",
-    "text": "foo\n\n foo ()"
-  },
-  {
-    "objectID": "roadmap.html",
-    "href": "roadmap.html",
-    "title": "core",
-    "section": "",
-    "text": "foo\n\n foo ()",
+    "objectID": "training.html#quantization",
+    "href": "training.html#quantization",
+    "title": "Training",
+    "section": "Quantization:",
+    "text": "Quantization:\nThe first key technique is quantization, specifically 4-bit quantization. This reduces the memory footprint of the model by approximately 75% compared to 16-bit floating point representation1. QLoRA (Quantized Low-Rank Adaptation) is a method that enables fine-tuning of quantized large language models2. It uses a 4-bit quantized frozen base model and adds trainable low-rank adapters.",
     "crumbs": [
-      "core"
+      "Training"
     ]
   },
   {
-    "objectID": "setup.html",
-    "href": "setup.html",
-    "title": "Setup",
-    "section": "",
-    "text": "We are using the following environment:\n\n# add func\n\nTo build and run the Docker image:\nchmod +x run_docker.sh\n./run_docker.sh\nYou can also use VSCode’s Docker extension (configs at .devcontainer/):\n\nMake sure you have the Docker extension installed in VS Code.\nOpen the Docker view in VS Code (usually in the left sidebar with the Docker whale icon).\nUnder the “Images” section, you should see the image you built listed.\nRight-click on the image and select “Run Interactive” or “Run” to start a container from that image.\nCONTINUE THIS\n\nYou also need to login to huggingface’s cli to get the foundation models:\nhuggingface-cli login",
+    "objectID": "training.html#fully-sharded-data-parallel-fsdp",
+    "href": "training.html#fully-sharded-data-parallel-fsdp",
+    "title": "Training",
+    "section": "Fully Sharded Data Parallel (FSDP):",
+    "text": "Fully Sharded Data Parallel (FSDP):\nFSDP is a distributed training technique that shards model parameters, optimizer states, and gradients across multiple GPUs3. This allows training of models larger than what can fit on a single GPU. FSDP works by: Sharding model parameters across GPUs Performing all-gather operations to collect full parameters during forward pass Using reduce-scatter operations to synchronize gradients during backward pass",
     "crumbs": [
-      "Setup"
+      "Training"
+    ]
+  },
+  {
+    "objectID": "training.html#gradient-checkpointing",
+    "href": "training.html#gradient-checkpointing",
+    "title": "Training",
+    "section": "Gradient Checkpointing:",
+    "text": "Gradient Checkpointing:\nThis technique trades computation for memory by not storing all activations. Instead, it saves checkpoints and recomputes activations as needed during the backward pass4.",
+    "crumbs": [
+      "Training"
+    ]
+  },
+  {
+    "objectID": "training.html#cpu-offloading",
+    "href": "training.html#cpu-offloading",
+    "title": "Training",
+    "section": "CPU Offloading:",
+    "text": "CPU Offloading:\nSome model parameters and optimizer states can be offloaded to CPU RAM when not in use, further reducing GPU memory requirements4.",
+    "crumbs": [
+      "Training"
+    ]
+  },
+  {
+    "objectID": "training.html#flash-attention",
+    "href": "training.html#flash-attention",
+    "title": "Training",
+    "section": "Flash Attention:",
+    "text": "Flash Attention:\nThis is an optimized attention implementation that reduces memory usage and improves computational efficiency4. Combining these techniques, it becomes possible to train a 70B model on consumer-grade hardware. For example, using QLoRA with 4-bit quantization reduces the model size from 140GB (70B 2 bytes for 16-bit) to about 35GB4. This can then be sharded across multiple GPUs using FSDP.\nThe process would look something like this:\n\nLoad the pre-trained 70B model and quantize it to 4-bit precision.\nAdd trainable LoRA adapters to the quantized model.\nWrap the model with FSDP, using an appropriate auto-wrap policy to optimize sharding.\nUse gradient checkpointing and CPU offloading to further manage memory usage.\nImplement Flash Attention for efficient attention computation.\nTrain the model using a distributed data loader and optimizer.\n\nIt’s important to note that while this setup allows training on consumer hardware, it comes with trade-offs. Training will be slower compared to using data center GPUs, and there may be some loss in model quality due to quantization. However, this approach democratizes access to large language model training, enabling researchers and enthusiasts to experiment with state-of-the-art models on more accessible hardware4.\nThis combination of techniques represents a significant advancement in making large-scale AI research more accessible, potentially leading to more diverse contributions to the field.",
+    "crumbs": [
+      "Training"
+    ]
+  },
+  {
+    "objectID": "training.html#half-quadratic-quantization",
+    "href": "training.html#half-quadratic-quantization",
+    "title": "Training",
+    "section": "Half Quadratic Quantization",
+    "text": "Half Quadratic Quantization\nHalf Quadratic Quantization (HQQ) is an advanced quantization technique for large machine learning models that aims to achieve high-quality quantization without the need for calibration data. Here’s a breakdown of the key aspects of HQQ: Objective: HQQ aims to minimize errors in the weights of the model rather than layer activations. It uses a sparsity-promoting loss function to model outliers through a hyper-Laplacian distribution, which better captures the heavy-tailed nature of outlier errors compared to squared error approaches1. Optimization Formulation: HQQ uses a robust optimization formulation to find the quantization parameters (zero-point z and scaling s). The objective is to minimize a sparsity-promoting loss function φ() between the original weights W and their dequantized version1: argmin(z,s) φ(W - Q^(-1)z,s(Q_z,s(W))) Where Q_z,s() is the quantization operator and Q^(-1)z,s() is the de-quantization operator. Half-Quadratic Solver: To solve this non-convex problem, HQQ adopts a Half-Quadratic solver by introducing an extra variable W_e. This allows splitting the main problem into easier-to-solve sub-problems1. Sub-problems: The optimization is done through alternating optimization of two sub-problems: a) Updating W_e using a generalized soft-thresholding operator b) Updating the zero-point z by minimizing the squared error between the quantized and target weights1 Efficiency: Unlike methods that use gradient descent with autograd, HQQ relies on closed-form solutions. This allows all calculations to be run in inference mode with half-precision, resulting in significant speed-ups (over 100x faster vs. autograd for quantizing Llama-2-7B)1. 6. Performance: HQQ has shown competitive performance with calibration-based methods like GPTQ and AWQ, while being much faster. For example, it can process the Llama-2-70B model in just a few minutes1. 7. Flexibility: HQQ can be used for various bit-widths, including extreme low-bit quantization (e.g., 2-bit), and has shown good results across different model sizes and applications1. In summary, Half Quadratic Quantization offers a fast, calibration-free approach to quantizing large language models while maintaining competitive performance with more computationally expensive calibration-based methods. This makes it particularly useful for quickly deploying or fine-tuning large models on resource-constrained hardware.",
+    "crumbs": [
+      "Training"
+    ]
+  },
+  {
+    "objectID": "training.html#qlora",
+    "href": "training.html#qlora",
+    "title": "Training",
+    "section": "QLoRA",
+    "text": "QLoRA\nQLoRA (Quantized Low-Rank Adaptation) is an efficient finetuning approach for large language models (LLMs) that significantly reduces memory usage while maintaining performance. Here’s a thorough explanation of QLoRA based on the arXiv paper1: Core Concept: QLoRA combines quantization and Low-Rank Adaptation (LoRA) to enable finetuning of large models on limited hardware. It allows finetuning a 65B parameter model on a single 48GB GPU while preserving full 16-bit finetuning task performance. Key Components: a) 4-bit Quantization: The pretrained model is quantized to 4 bits, reducing memory usage by about 75% compared to 16-bit models. b) LoRA: Trainable low-rank adapters are added to the frozen, quantized base model. c) Backpropagation: Gradients are backpropagated through the quantized model into the LoRA adapters. Technical Innovations: a) 4-bit NormalFloat (NF4): A new data type optimized for normally distributed weights, which is information-theoretically optimal for such distributions. b) Double Quantization: Quantizing the quantization constants themselves to further reduce memory footprint. c) Paged Optimizers: A technique to manage memory spikes during training.\nScalability: QLoRA enables finetuning of models at scales previously infeasible with regular finetuning methods (e.g., 33B and 65B parameter models).\nQLoRA democratizes access to large language model training, enabling researchers and enthusiasts to experiment with state-of-the-art models on more accessible hardware. In summary, QLoRA represents a significant advancement in making large-scale AI research more accessible by combining efficient quantization techniques with low-rank adaptation, allowing for the finetuning of massive language models on consumer-grade hardware while maintaining high performance.",
+    "crumbs": [
+      "Training"
+    ]
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "tango",
+    "section": "",
+    "text": "Python 3.10 or later\nCUDA-compatible GPU (CUDA 11.8 recommended)\nGit",
+    "crumbs": [
+      "tango"
+    ]
+  },
+  {
+    "objectID": "index.html#prerequisites",
+    "href": "index.html#prerequisites",
+    "title": "tango",
+    "section": "",
+    "text": "Python 3.10 or later\nCUDA-compatible GPU (CUDA 11.8 recommended)\nGit",
+    "crumbs": [
+      "tango"
+    ]
+  },
+  {
+    "objectID": "index.html#installation",
+    "href": "index.html#installation",
+    "title": "tango",
+    "section": "Installation",
+    "text": "Installation\n\nClone the repository:\ngit clone https://github.com/your-username/your-repo-name.git\ncd your-repo-name\nCreate and activate a virtual environment (optional but recommended):\npython3 -m venv venv\nsource venv/bin/activate  # On Windows, use `venv\\Scripts\\activate`\nInstall PyTorch with CUDA support:\npip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118\nInstall the required packages:\npip install -r requirements.txt\nInstall HQQ:\ngit clone https://github.com/mobiusml/hqq.git\ncd hqq\npip install .\ncd hqq/kernels\npython setup_cuda.py install\ncd ../..",
+    "crumbs": [
+      "tango"
+    ]
+  },
+  {
+    "objectID": "index.html#usage",
+    "href": "index.html#usage",
+    "title": "tango",
+    "section": "Usage",
+    "text": "Usage\nTo run the training script, use the following command:\npython train.py [arguments]\n\nImportant Arguments\n\n--world_size: Number of GPUs to use. -1 = all available GPUs.\n--train_type: Training type (e.g., “qlora”, “full”, “lora”, “custom_qlora”)\n--batch_size: Batch size per GPU\n--num_epochs: Number of training epochs\n--dataset: Dataset to use (e.g., “alpaca”, “alpaca_sample”, “dummy”)\n--model_name: Model to train (e.g., “meta-llama/Llama-2-7b-hf”)\n--precision: Training precision (e.g., “bf16”, “fp32”)\n\nFor a full list of arguments and their descriptions, run:\npython train.py --help\n\n\nQuick run\npython train.py \\\n--model_name meta-llama/Llama-2-70b-hf \\\n--batch_size 2 \\\n--context_length 512 \\\n--precision bf16 \\\n--train_type qlora \\\n--use_gradient_checkpointing true \\\n--use_cpu_offload true \\\n--dataset alpaca \\\n--reentrant_checkpointing true\nthis uses over 130gb of cpu ram, but note you can use swap memory. note that if you don’t use cpu offloading (use_cpu_offload false), ram usage will be much lower.",
+    "crumbs": [
+      "tango"
+    ]
+  },
+  {
+    "objectID": "index.html#installation-1",
+    "href": "index.html#installation-1",
+    "title": "tango",
+    "section": "Installation",
+    "text": "Installation\n\nClone the repository:\ngit clone https://github.com/your-username/your-repo-name.git\ncd your-repo-name\nCreate and activate a virtual environment (optional but recommended):\npython3 -m venv venv\nsource venv/bin/activate  # On Windows, use `venv\\Scripts\\activate`\nInstall PyTorch with CUDA support:\npip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118\nInstall the required packages:\npip install -r requirements.txt\nInstall HQQ:\ngit clone https://github.com/mobiusml/hqq.git\ncd hqq\npip install .\ncd hqq/kernels\npython setup_cuda.py install\ncd ../..",
+    "crumbs": [
+      "tango"
+    ]
+  },
+  {
+    "objectID": "index.html#usage-1",
+    "href": "index.html#usage-1",
+    "title": "tango",
+    "section": "Usage",
+    "text": "Usage\n\nInstallation\nInstall latest from the GitHub repository:\n$ pip install git+https://github.com/sandbox-ai/tango.git\nor from conda\n$ conda install -c sandbox-ai tango\nor from pypi\n$ pip install tango\n\n\nDocumentation\nDocumentation can be found hosted on this GitHub repository’s pages. Additionally you can find package manager specific guidelines on conda and pypi respectively.",
+    "crumbs": [
+      "tango"
+    ]
+  },
+  {
+    "objectID": "index.html#installation-2",
+    "href": "index.html#installation-2",
+    "title": "tango",
+    "section": "Installation",
+    "text": "Installation\n\nClone the repository:\ngit clone https://github.com/your-username/your-repo-name.git\ncd your-repo-name\nCreate and activate a virtual environment (optional but recommended):\npython3 -m venv venv\nsource venv/bin/activate  # On Windows, use `venv\\Scripts\\activate`\nInstall PyTorch with CUDA support:\npip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118\nInstall the required packages:\npip install -r requirements.txt\nInstall HQQ:\ngit clone https://github.com/mobiusml/hqq.git\ncd hqq\npip install .\ncd hqq/kernels\npython setup_cuda.py install\ncd ../..",
+    "crumbs": [
+      "tango"
+    ]
+  },
+  {
+    "objectID": "index.html#usage-2",
+    "href": "index.html#usage-2",
+    "title": "tango",
+    "section": "Usage",
+    "text": "Usage\nTo run the training script, use the following command:## Prerequisites\n\nPython 3.10 or later\nCUDA-compatible GPU (CUDA 11.8 recommended)\nGit",
+    "crumbs": [
+      "tango"
+    ]
+  },
+  {
+    "objectID": "index.html#installation-3",
+    "href": "index.html#installation-3",
+    "title": "tango",
+    "section": "Installation",
+    "text": "Installation\n\nClone the repository:\ngit clone https://github.com/your-username/your-repo-name.git\ncd your-repo-name\nCreate and activate a virtual environment (optional but recommended):\npython3 -m venv venv\nsource venv/bin/activate  # On Windows, use `venv\\Scripts\\activate`\nInstall PyTorch with CUDA support:\npip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118\nInstall the required packages:\npip install -r requirements.txt\nInstall HQQ:\ngit clone https://github.com/mobiusml/hqq.git\ncd hqq\npip install .\ncd hqq/kernels\npython setup_cuda.py install\ncd ../..",
+    "crumbs": [
+      "tango"
+    ]
+  },
+  {
+    "objectID": "index.html#usage-3",
+    "href": "index.html#usage-3",
+    "title": "tango",
+    "section": "Usage",
+    "text": "Usage\nTo run the training script, use the following command:\npython train.py [arguments]\n\n\nImportant Arguments\n\n--world_size: Number of GPUs to use. -1 = all available GPUs.\n--train_type: Training type (e.g., “qlora”, “full”, “lora”, “custom_qlora”)\n--batch_size: Batch size per GPU\n--num_epochs: Number of training epochs\n--dataset: Dataset to use (e.g., “alpaca”, “alpaca_sample”, “dummy”)\n--model_name: Model to train (e.g., “meta-llama/Llama-2-7b-hf”)\n--precision: Training precision (e.g., “bf16”, “fp32”)\n\nFor a full list of arguments and their descriptions, run:\npython train.py --help\n\n\nQuick run\npython train.py \\\n--model_name meta-llama/Llama-2-70b-hf \\\n--batch_size 2 \\\n--context_length 512 \\\n--precision bf16 \\\n--train_type qlora \\\n--use_gradient_checkpointing true \\\n--use_cpu_offload true \\\n--dataset alpaca \\\n--reentrant_checkpointing true\nthis uses over 130gb of cpu ram, but note you can use swap memory. note that if you don’t use cpu offloading (use_cpu_offload false), ram usage will be much lower.",
+    "crumbs": [
+      "tango"
+    ]
+  },
+  {
+    "objectID": "index.html#running-jupyter-notebook",
+    "href": "index.html#running-jupyter-notebook",
+    "title": "tango",
+    "section": "Running Jupyter Notebook",
+    "text": "Running Jupyter Notebook\nTo run Jupyter Notebook for interactive development:\n\nStart Jupyter Notebook:\njupyter notebook\nOpen your browser and go to http://localhost:8888",
+    "crumbs": [
+      "tango"
+    ]
+  },
+  {
+    "objectID": "index.html#notes",
+    "href": "index.html#notes",
+    "title": "tango",
+    "section": "Notes",
+    "text": "Notes\n\nMake sure your CUDA version is compatible with your GPU. You can check supported architectures and adjust the TORCH_CUDA_ARCH_LIST environment variable if needed.\nThe project uses specific versions of transformers library, excluding versions 4.38.* and 4.39.*. If you encounter issues, you may need to adjust the version constraints.\nFor optimal performance, ensure you have the latest NVIDIA drivers installed for your GPU.",
+    "crumbs": [
+      "tango"
+    ]
+  },
+  {
+    "objectID": "index.html#troubleshooting",
+    "href": "index.html#troubleshooting",
+    "title": "tango",
+    "section": "Troubleshooting",
+    "text": "Troubleshooting\nIf you encounter any issues with CUDA or GPU support, make sure: 1. Your NVIDIA drivers are up to date 2. The installed PyTorch version matches your CUDA version 3. Your GPU is CUDA-compatible and supported by the installed PyTorch version",
+    "crumbs": [
+      "tango"
+    ]
+  },
+  {
+    "objectID": "index.html#contributing",
+    "href": "index.html#contributing",
+    "title": "tango",
+    "section": "Contributing",
+    "text": "Contributing\nask the pibes",
+    "crumbs": [
+      "tango"
+    ]
+  },
+  {
+    "objectID": "index.html#developer-guide",
+    "href": "index.html#developer-guide",
+    "title": "tango",
+    "section": "Developer Guide",
+    "text": "Developer Guide\nIf you are new to using nbdev here are some useful pointers to get you started.\n\nInstall tango in Development mode\n# make sure tango package is installed in development mode\n$ pip install -e .\n\n# make changes under nbs/ directory\n# ...\n\n# compile to have changes apply to tango\n$ nbdev_prepare",
+    "crumbs": [
+      "tango"
+    ]
+  },
+  {
+    "objectID": "index.html#usage-4",
+    "href": "index.html#usage-4",
+    "title": "tango",
+    "section": "Usage",
+    "text": "Usage\n\nInstallation\nInstall latest from the GitHub repository:\n$ pip install git+https://github.com/sandbox-ai/tango.git\nor from conda\n$ conda install -c sandbox-ai tango\nor from pypi\n$ pip install tango\n\n\nDocumentation\nDocumentation can be found hosted on this GitHub repository’s pages. Additionally you can find package manager specific guidelines on conda and pypi respectively.",
+    "crumbs": [
+      "tango"
+    ]
+  },
+  {
+    "objectID": "index.html#how-to-use",
+    "href": "index.html#how-to-use",
+    "title": "tango",
+    "section": "How to use",
+    "text": "How to use\nFill me in please! Don’t forget code examples:\n\n1+1\n\n2",
+    "crumbs": [
+      "tango"
+    ]
+  },
+  {
+    "objectID": "index.html#package",
+    "href": "index.html#package",
+    "title": "tango",
+    "section": "Package",
+    "text": "Package",
+    "crumbs": [
+      "tango"
     ]
   }
 ]
