@@ -14,8 +14,8 @@
 1.  Clone the repository:
 
     ``` bash
-    git clone https://github.com/your-username/your-repo-name.git
-    cd your-repo-name
+    git clone https://github.com/lexia-ar/tango.git
+    cd tango
     ```
 
 2.  Create and activate a virtual environment (optional but
@@ -38,7 +38,13 @@
     pip install -r requirements.txt
     ```
 
-5.  Install HQQ:
+5.  Instal fsdp_qlora:
+
+    ``` bash
+    git clone https://github.com/AnswerDotAI/fsdp_qlora.git
+    ```
+
+6.  Install HQQ:
 
     ``` bash
     git clone https://github.com/mobiusml/hqq.git
@@ -46,7 +52,13 @@
     pip install .
     cd hqq/kernels
     python setup_cuda.py install
-    cd ../..
+    cd ../../..
+    ```
+
+7.  Log into HuggingFace CLI
+
+    ``` bash
+    huggingface-cli login
     ```
 
 ## Usage

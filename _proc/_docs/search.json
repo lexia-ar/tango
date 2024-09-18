@@ -264,7 +264,7 @@
     "href": "index.html#installation",
     "title": "tango",
     "section": "Installation",
-    "text": "Installation\n\nClone the repository:\ngit clone https://github.com/your-username/your-repo-name.git\ncd your-repo-name\nCreate and activate a virtual environment (optional but recommended):\npython3 -m venv venv\nsource venv/bin/activate  # On Windows, use `venv\\Scripts\\activate`\nInstall PyTorch with CUDA support:\npip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118\nInstall the required packages:\npip install -r requirements.txt\nInstall HQQ:\ngit clone https://github.com/mobiusml/hqq.git\ncd hqq\npip install .\ncd hqq/kernels\npython setup_cuda.py install\ncd ../..",
+    "text": "Installation\n\nClone the repository:\ngit clone https://github.com/lexia-ar/tango.git\ncd tango\nCreate and activate a virtual environment (optional but recommended):\npython3 -m venv venv\nsource venv/bin/activate  # On Windows, use `venv\\Scripts\\activate`\nInstall PyTorch with CUDA support:\npip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118\nInstall the required packages:\npip install -r requirements.txt\nInstal fsdp_qlora:\ngit clone https://github.com/AnswerDotAI/fsdp_qlora.git\nInstall HQQ:\ngit clone https://github.com/mobiusml/hqq.git\ncd hqq\npip install .\ncd hqq/kernels\npython setup_cuda.py install\ncd ../../..\nLog into HuggingFace CLI\nhuggingface-cli login",
     "crumbs": [
       "tango"
     ]
