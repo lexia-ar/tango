@@ -337,7 +337,9 @@ def get_dataloader(tokenizer:PreTrainedTokenizerFast, args:Dict):
     from datasets import Dataset, load_dataset
 
     # Load the source dataset
-    if args["dataset"] == "alpaca":
+    if args["dataset"] == "messi":
+        dataset = load_dataset("spanish-ir/messirve")['train']
+    elif args["dataset"] == "alpaca":
         dataset = load_dataset("yahma/alpaca-cleaned")['train']
     elif args["dataset"] == "alpaca_sample":
         dataset = load_dataset("yahma/alpaca-cleaned", split=f"train[:{args['dataset_samples']}]")
