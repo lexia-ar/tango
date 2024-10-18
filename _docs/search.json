@@ -1,0 +1,430 @@
+[
+  {
+    "objectID": "zz_template.html",
+    "href": "zz_template.html",
+    "title": "template nb",
+    "section": "",
+    "text": "foo\n\n foo ()",
+    "crumbs": [
+      "template nb"
+    ]
+  },
+  {
+    "objectID": "eval.html",
+    "href": "eval.html",
+    "title": "template nb",
+    "section": "",
+    "text": "https://github.com/lm-sys/FastChat\n\n\nfoo\n\n foo ()",
+    "crumbs": [
+      "template nb"
+    ]
+  },
+  {
+    "objectID": "03_training.html",
+    "href": "03_training.html",
+    "title": "Training",
+    "section": "",
+    "text": "notes on tango’s training process\n::: {#69be8228 .cell 0=‘h’ 1=‘i’ 2=‘d’ 3=‘e’ execution_count=1}\n:::\nTraining a 70 billion parameter (70B) language model at home requires combining several advanced techniques to overcome memory and computational constraints.",
+    "crumbs": [
+      "Training"
+    ]
+  },
+  {
+    "objectID": "03_training.html#quantization",
+    "href": "03_training.html#quantization",
+    "title": "Training",
+    "section": "Quantization:",
+    "text": "Quantization:\nThe first key technique is quantization, specifically 4-bit quantization. This reduces the memory footprint of the model by approximately 75% compared to 16-bit floating point representation1. QLoRA (Quantized Low-Rank Adaptation) is a method that enables fine-tuning of quantized large language models2. It uses a 4-bit quantized frozen base model and adds trainable low-rank adapters.",
+    "crumbs": [
+      "Training"
+    ]
+  },
+  {
+    "objectID": "03_training.html#fully-sharded-data-parallel-fsdp",
+    "href": "03_training.html#fully-sharded-data-parallel-fsdp",
+    "title": "Training",
+    "section": "Fully Sharded Data Parallel (FSDP):",
+    "text": "Fully Sharded Data Parallel (FSDP):\nFSDP is a distributed training technique that shards model parameters, optimizer states, and gradients across multiple GPUs3. This allows training of models larger than what can fit on a single GPU. FSDP works by: Sharding model parameters across GPUs Performing all-gather operations to collect full parameters during forward pass Using reduce-scatter operations to synchronize gradients during backward pass",
+    "crumbs": [
+      "Training"
+    ]
+  },
+  {
+    "objectID": "03_training.html#gradient-checkpointing",
+    "href": "03_training.html#gradient-checkpointing",
+    "title": "Training",
+    "section": "Gradient Checkpointing:",
+    "text": "Gradient Checkpointing:\nThis technique trades computation for memory by not storing all activations. Instead, it saves checkpoints and recomputes activations as needed during the backward pass4.",
+    "crumbs": [
+      "Training"
+    ]
+  },
+  {
+    "objectID": "03_training.html#cpu-offloading",
+    "href": "03_training.html#cpu-offloading",
+    "title": "Training",
+    "section": "CPU Offloading:",
+    "text": "CPU Offloading:\nSome model parameters and optimizer states can be offloaded to CPU RAM when not in use, further reducing GPU memory requirements4.",
+    "crumbs": [
+      "Training"
+    ]
+  },
+  {
+    "objectID": "03_training.html#flash-attention",
+    "href": "03_training.html#flash-attention",
+    "title": "Training",
+    "section": "Flash Attention:",
+    "text": "Flash Attention:\nThis is an optimized attention implementation that reduces memory usage and improves computational efficiency4. Combining these techniques, it becomes possible to train a 70B model on consumer-grade hardware. For example, using QLoRA with 4-bit quantization reduces the model size from 140GB (70B 2 bytes for 16-bit) to about 35GB4. This can then be sharded across multiple GPUs using FSDP.\nThe process would look something like this:\n\nLoad the pre-trained 70B model and quantize it to 4-bit precision.\nAdd trainable LoRA adapters to the quantized model.\nWrap the model with FSDP, using an appropriate auto-wrap policy to optimize sharding.\nUse gradient checkpointing and CPU offloading to further manage memory usage.\nImplement Flash Attention for efficient attention computation.\nTrain the model using a distributed data loader and optimizer.\n\nIt’s important to note that while this setup allows training on consumer hardware, it comes with trade-offs. Training will be slower compared to using data center GPUs, and there may be some loss in model quality due to quantization. However, this approach democratizes access to large language model training, enabling researchers and enthusiasts to experiment with state-of-the-art models on more accessible hardware4.\nThis combination of techniques represents a significant advancement in making large-scale AI research more accessible, potentially leading to more diverse contributions to the field.",
+    "crumbs": [
+      "Training"
+    ]
+  },
+  {
+    "objectID": "03_training.html#half-quadratic-quantization",
+    "href": "03_training.html#half-quadratic-quantization",
+    "title": "Training",
+    "section": "Half Quadratic Quantization",
+    "text": "Half Quadratic Quantization\nHalf Quadratic Quantization (HQQ) is an advanced quantization technique for large machine learning models that aims to achieve high-quality quantization without the need for calibration data. Here’s a breakdown of the key aspects of HQQ: Objective: HQQ aims to minimize errors in the weights of the model rather than layer activations. It uses a sparsity-promoting loss function to model outliers through a hyper-Laplacian distribution, which better captures the heavy-tailed nature of outlier errors compared to squared error approaches1. Optimization Formulation: HQQ uses a robust optimization formulation to find the quantization parameters (zero-point z and scaling s). The objective is to minimize a sparsity-promoting loss function φ() between the original weights W and their dequantized version1: argmin(z,s) φ(W - Q^(-1)z,s(Q_z,s(W))) Where Q_z,s() is the quantization operator and Q^(-1)z,s() is the de-quantization operator. Half-Quadratic Solver: To solve this non-convex problem, HQQ adopts a Half-Quadratic solver by introducing an extra variable W_e. This allows splitting the main problem into easier-to-solve sub-problems1. Sub-problems: The optimization is done through alternating optimization of two sub-problems: a) Updating W_e using a generalized soft-thresholding operator b) Updating the zero-point z by minimizing the squared error between the quantized and target weights1 Efficiency: Unlike methods that use gradient descent with autograd, HQQ relies on closed-form solutions. This allows all calculations to be run in inference mode with half-precision, resulting in significant speed-ups (over 100x faster vs. autograd for quantizing Llama-2-7B)1. 6. Performance: HQQ has shown competitive performance with calibration-based methods like GPTQ and AWQ, while being much faster. For example, it can process the Llama-2-70B model in just a few minutes1. 7. Flexibility: HQQ can be used for various bit-widths, including extreme low-bit quantization (e.g., 2-bit), and has shown good results across different model sizes and applications1. In summary, Half Quadratic Quantization offers a fast, calibration-free approach to quantizing large language models while maintaining competitive performance with more computationally expensive calibration-based methods. This makes it particularly useful for quickly deploying or fine-tuning large models on resource-constrained hardware.",
+    "crumbs": [
+      "Training"
+    ]
+  },
+  {
+    "objectID": "03_training.html#qlora",
+    "href": "03_training.html#qlora",
+    "title": "Training",
+    "section": "QLoRA",
+    "text": "QLoRA\nQLoRA (Quantized Low-Rank Adaptation) is an efficient finetuning approach for large language models (LLMs) that significantly reduces memory usage while maintaining performance. Here’s a thorough explanation of QLoRA based on the arXiv paper1: Core Concept: QLoRA combines quantization and Low-Rank Adaptation (LoRA) to enable finetuning of large models on limited hardware. It allows finetuning a 65B parameter model on a single 48GB GPU while preserving full 16-bit finetuning task performance. Key Components: a) 4-bit Quantization: The pretrained model is quantized to 4 bits, reducing memory usage by about 75% compared to 16-bit models. b) LoRA: Trainable low-rank adapters are added to the frozen, quantized base model. c) Backpropagation: Gradients are backpropagated through the quantized model into the LoRA adapters. Technical Innovations: a) 4-bit NormalFloat (NF4): A new data type optimized for normally distributed weights, which is information-theoretically optimal for such distributions. b) Double Quantization: Quantizing the quantization constants themselves to further reduce memory footprint. c) Paged Optimizers: A technique to manage memory spikes during training.\nScalability: QLoRA enables finetuning of models at scales previously infeasible with regular finetuning methods (e.g., 33B and 65B parameter models).\nQLoRA democratizes access to large language model training, enabling researchers and enthusiasts to experiment with state-of-the-art models on more accessible hardware. In summary, QLoRA represents a significant advancement in making large-scale AI research more accessible by combining efficient quantization techniques with low-rank adaptation, allowing for the finetuning of massive language models on consumer-grade hardware while maintaining high performance.\n::: {#21638acc .cell 0=‘h’ 1=‘i’ 2=‘d’ 3=‘e’ execution_count=2}\nimport nbdev; nbdev.nbdev_export()\n:::",
+    "crumbs": [
+      "Training"
+    ]
+  },
+  {
+    "objectID": "roadmap.html",
+    "href": "roadmap.html",
+    "title": "Roadmap",
+    "section": "",
+    "text": "[] setup process\n[] training process\n[] benchmarks\n[] data\n\nhttps://developer.nvidia.com/cuda-gpus",
+    "crumbs": [
+      "Roadmap"
+    ]
+  },
+  {
+    "objectID": "designdoc.html",
+    "href": "designdoc.html",
+    "title": "Design Document",
+    "section": "",
+    "text": "Include team suggestions into tango 70b design doc (suggestions at Notion).",
+    "crumbs": [
+      "Design Document"
+    ]
+  },
+  {
+    "objectID": "designdoc.html#introduction",
+    "href": "designdoc.html#introduction",
+    "title": "Design Document",
+    "section": "1. Introduction",
+    "text": "1. Introduction\n\nProject Overview\nProject Tango 70-b aims to develop and train the first large language model (LLM) specifically designed for and by Latin Americans, with a focus on Spanish language content. This ambitious project seeks to democratize AI technology in the region by leveraging consumer-grade hardware and innovative training techniques.\nKey aspects of the project include:\n\nTraining a 70 billion parameter LLM using consumer GPUs (2x NVIDIA RTX 3090).\nImplementing advanced techniques such as QLoRA, FSDP, and Half Quadratic Quantization to enable efficient training on limited hardware.\nUtilizing Latin American-focused datasets, including Wikipedia content, literature, and historical and legal documents.\nExploring the economic and geopolitical implications of locally developed and hosted AI infrastructure in Latin America.\nDocumenting and open-sourcing the entire process to foster AI development in the region.\nInvestigating future possibilities for decentralized AI serving and smartphone-based AI applications in Latin America.\n\nThis project not only aims to create a powerful language model but also to spark discussions about AI sovereignty, economic feasibility, and the potential for Latin America to become a significant player in the global AI landscape. By combining technical innovation with strategic foresight, Tango 70-b seeks to position Argentina and Latin America at the forefront of AI development and application.\n\n\nGoals and Objectives\n\nCreate a Proof of Concept for training highly capable AI on consumer GPUs, defined as an LLM that achieves an MMLU (or other metric) higher than X.\nServe the first AI in Argentina at a cost proportional to local salary ranges/GDP per capita/minimum wage.\nAssess the economics of training, hosting, and serving LLMs from and for Latin America.\nGain hands-on experience in training sota LLMs.\nKickstart the discussion on the importance of training and serving AI in Latin America, including social, economic, and geopolitical aspects.\nCement the AI scene in Argentina and Latin America.\nPosition Argentina as the 4th AI pole globally.\n\n\n\nScope of the Project\n\nFocus on Spanish language and Latin American content.\nUtilize consumer-grade hardware for training and serving.\nDevelop and document the process for future replication.\nExplore the specialized LLM space rather than competing with foundation models.\n\n\n\nNon-Objectives\n\nTargeting Spanish from Spain or other non-Latin American Spanish-speaking regions.\nCompeting with big tech companies’ centralized serving approach.\nDeveloping foundation models.",
+    "crumbs": [
+      "Design Document"
+    ]
+  },
+  {
+    "objectID": "designdoc.html#model-architecture",
+    "href": "designdoc.html#model-architecture",
+    "title": "Design Document",
+    "section": "2. Model Architecture",
+    "text": "2. Model Architecture\n\nBase Model Selection\n[To be determined]\n\n\nModel Size\n70 billion parameters, potentially using distillation or pruning techniques.\n\n\nArchitecture Modifications\nImplement QLoRA (Quantized Low-Rank Adaptation) and FSDP (Fully Sharded Data Parallel) to enable training on consumer GPUs.",
+    "crumbs": [
+      "Design Document"
+    ]
+  },
+  {
+    "objectID": "designdoc.html#training-data",
+    "href": "designdoc.html#training-data",
+    "title": "Design Document",
+    "section": "3. Training Data",
+    "text": "3. Training Data\n\nData Sources\n\nWikipedia content for Latin American countries (3 levels of links)\nLatin American literature and books\nConstitutions of Latin American countries\nSomosNLP dataset\nOpenHermes datasets\n\n\n\nData Preparation and Cleaning\nwe will mimick HuggingFace’s FineWeb-Edu approach\n\n\nData Format and Structure\nwe will mimick HuggingFace’s FineWeb-Edu approach",
+    "crumbs": [
+      "Design Document"
+    ]
+  },
+  {
+    "objectID": "designdoc.html#training-proces",
+    "href": "designdoc.html#training-proces",
+    "title": "Design Document",
+    "section": "4. Training Proces",
+    "text": "4. Training Proces\nWe fine-tune, we do not pre-train.\n\nHardware Requirements\n2x NVIDIA RTX 3090 with 24GB VRAM each\n\n\nSoftware Stack\n\nPyTorch with FSDP\nQLoRA\nbitsandbyte\nPEFT\nTransformers\nAccelerate\n\n\n\nTraining Techniques\n\n1. Quantization (QLoRA)\n\nUtilize 4-bit quantization to reduce model memory footprint by ~75%\nImplement QLoRA, combining quantization with Low-Rank Adaptation\nUse a 4-bit quantized frozen base model with trainable low-rank adapters\nEmploy 4-bit NormalFloat (NF4) data type for normally distributed weights\nImplement double quantization to further reduce memory usage\n\n\n\n2. Fully Sharded Data Parallel (FSDP)\n\nShard model parameters, optimizer states, and gradients across multiple GPUs\nPerform all-gather operations during forward pass\nUse reduce-scatter operations for gradient synchronization during backward pass\n\n\n\n3. Gradient Checkpointing\n\nTrade computation for memory by not storing all activations\nSave checkpoints and recompute activations as needed during backward pass\n\n\n\n4. CPU Offloading\n\nStore some model parameters and optimizer states in CPU RAM when not in use\nSignificantly reduce GPU memory requirements\n\n\n\n5. Flash Attention\n\nImplement optimized attention computation using memory-efficient CUDA kernels\n\n\n\n6. Half Quadratic Quantization (HQQ)\n\nUtilize HQQ as an alternative or complement to standard 4-bit quantization\nMinimize weight errors using a sparsity-promoting loss function\nEmploy a half-quadratic solver for efficient optimization\n\n\n\nChallenges and Considerations\n\nTraining will be slower compared to data center GPUs\nPotential loss in model quality due to quantization\nBalancing sequence length and batch size within memory constraints\nCareful management of quantization state and FSDP synchronization",
+    "crumbs": [
+      "Design Document"
+    ]
+  },
+  {
+    "objectID": "designdoc.html#evaluation-metrics",
+    "href": "designdoc.html#evaluation-metrics",
+    "title": "Design Document",
+    "section": "5. Evaluation Metrics",
+    "text": "5. Evaluation Metrics\n\nPerformance Metrics\nWe will use a variety of benchmarks to evaluate our model’s performance. We will not be able to compete (yet) with the leading models like claude, or gemini, but if we can get to within 10% of their perf, that’s good enough as a starting point.\n\n\nEvaluation Datasets and Benchmarks\nWe will use the following datasets and benchmarks for evaluation:\n\nMMBench v1.1\nMMStar\nMMMU_VAL\nMathVista_MINI\nHallusionBench\nAI2D_TEST\nOCRBench\nMMVet\n\nHere are the benchmark scores of leading models for reference:\n\n\n\n\n\n\n\n\n\n\nBenchmark\nGPT-4o-20240513\nClaude3.5-Sonnet\nGemini-1.5-Pro\nGPT-4v-20240409\n\n\n\n\nOverall Rank\n1\n2\n3\n4\n\n\nAvg. Score\n69.9\n67.9\n64.4\n63.5\n\n\nMMBench v1.1\n82.2\n78.5\n73.9\n79.8\n\n\nMMStar\n63.9\n62.2\n59.1\n56.0\n\n\nMMMU_VAL\n69.2\n65.9\n60.6\n61.7\n\n\nMathVista_MINI\n61.3\n61.6\n57.7\n54.7\n\n\nHallusionBench\n55.0\n49.9\n45.6\n43.9\n\n\nAI2D_TEST\n84.6\n80.2\n79.1\n78.6\n\n\nOCRBench\n736\n788\n754\n656\n\n\nMMVet\n69.1\n66\n64\n67.5",
+    "crumbs": [
+      "Design Document"
+    ]
+  },
+  {
+    "objectID": "designdoc.html#ethical-considerations",
+    "href": "designdoc.html#ethical-considerations",
+    "title": "Design Document",
+    "section": "6. Ethical Considerations",
+    "text": "6. Ethical Considerations\nNone to begin with, but we aim to open up the discussion by reaching out to researchers and thinkers.\n\nBias Mitigation Strategies\n[To be developed]\n\n\nSafety Measures\nNone, we don’t go into that hype and we don’t want regulatory capture. + guardrails can be added to the systems that build upon tango (e.g., nvidia’s nemo guardrails)\n\n\nPrivacy Considerations\n[To be developed]",
+    "crumbs": [
+      "Design Document"
+    ]
+  },
+  {
+    "objectID": "designdoc.html#deployment-and-inference",
+    "href": "designdoc.html#deployment-and-inference",
+    "title": "Design Document",
+    "section": "7. Deployment and Inference",
+    "text": "7. Deployment and Inference\n\nDeployment Environment\nExplore decentralized and distributed hosting options suitable for the (mostly undeveloped) Latin American infrastructure.\n\n\nInference Optimization\nImplement quantization techniques like Half Quadratic Quantization (HQQ) for efficient inference.\n\n\nScaling Considerations\nsee Future Considerations on architectures that scale sub-linearly with context lenght.",
+    "crumbs": [
+      "Design Document"
+    ]
+  },
+  {
+    "objectID": "designdoc.html#maintenance-and-iteration",
+    "href": "designdoc.html#maintenance-and-iteration",
+    "title": "Design Document",
+    "section": "8. Maintenance and Iteration",
+    "text": "8. Maintenance and Iteration\n[To be determined]\n\nMonitoring Plan\nWeights & Biases\n\n\nVersion Control\nGithub",
+    "crumbs": [
+      "Design Document"
+    ]
+  },
+  {
+    "objectID": "designdoc.html#timeline-and-milestones",
+    "href": "designdoc.html#timeline-and-milestones",
+    "title": "Design Document",
+    "section": "9. Timeline and Milestones",
+    "text": "9. Timeline and Milestones\n\n2024\n\ntest runs until september the 1st\ndata scrapping throught the week of september the 2nd\ntrain tango-70b v0.0.1 over the september 7th-8th weekend\nsoft release (huggingface, linkedin) on september 9th\nfull release on october the 1st\n\n2025\n\n[To be determined]",
+    "crumbs": [
+      "Design Document"
+    ]
+  },
+  {
+    "objectID": "designdoc.html#resources-and-budget",
+    "href": "designdoc.html#resources-and-budget",
+    "title": "Design Document",
+    "section": "10. Resources and Budget",
+    "text": "10. Resources and Budget\n\nTeam Composition\nlexia x sandbox\n\n\nComputing Resources\nDual RTX 3090 setup, with potential for cloud resources (e.g., Runpod Community Cloud at ~$0.60/hour)\n\n\nEstimated Costs\nNone if fully local, [To be calculated] if partially on cloud",
+    "crumbs": [
+      "Design Document"
+    ]
+  },
+  {
+    "objectID": "designdoc.html#looking-forward",
+    "href": "designdoc.html#looking-forward",
+    "title": "Design Document",
+    "section": "11. Looking Forward",
+    "text": "11. Looking Forward\n\nFuture Considerations\n\nExplore more cost-effective architectures (sub-linear scaling of context) such as State Space Models (Mamba and Jamba) and RNNs (RWKV)\nInvestigate the potential for running AI on smartphones in Latin America over the next 2-4 years.",
+    "crumbs": [
+      "Design Document"
+    ]
+  },
+  {
+    "objectID": "designdoc.html#communication-and-outreach",
+    "href": "designdoc.html#communication-and-outreach",
+    "title": "Design Document",
+    "section": "12. Communication and Outreach",
+    "text": "12. Communication and Outreach\n\nTechnical Paper/Post\nDocument the entire process, challenges, and solutions for the Latin American AI community.\n\n\nNews article\n“Argentinians build the first AI of Latin America” - highlighting cultural inclusions (e.g., writings from San Martín, Cortázar), societal impact, geopolitical derivations.\n\n\n“The Geopolitics of LLMs and can Argentina be the next big AI player?”\ndiscussing the potential and challenges for Argentina in the global AI landscape.\n\n(some) of the questions to be answered:\n\nAre there political or geographical reasons for argentina and latam to develop and host it’s own AI?\nCan foreign AI properly represent our values and interests as latinoamericans?\nCan foreignly trained and/or served AI be properly in control of latam owners?\n\n\n\n\n“The economics of hosting and serving LLMs in Latin America”\nsxploring the feasibility and implications of local (and potentially distributed and decentralized) AI infrastructure.\n\n(some) of the questions to be answered:\n\nIs it convenient to host llms on latin america? why not just pay the us, france or china to serve them for us?\nIf it’s not economically convenient to serve them here, why is it that the case? are we missing a hidden cost or benefit? e.g., progressively buying/getting the compute to build AI infrastructure in latin america.\nIf most AI services cost 20 USD per month, why should latam countries pay that? can we get a business going by charging the equivalent on % of minimum wage? –&gt; e.g. if 20USD per month is say 2% of minimum wage in the US, can we get a business going by charging 2% of Argentina/Latam’s minimum wage? buying compute is certainly the same cost -given we can get some gpus on our hands- but certainly the cost of running the compute should be cheaper. (and most likely we should go for something like ROCm instead of CUDA)\nAre there economic reasons/drivers to develp AI infrastructure in Latam? is it sortof the equivalent to energetic selfsustainability? What other drivers are there? geopolitical ones? War/Military ones? what happens if a latam country goes to war or get’s into political conflict with it’s provider of AI infrastructure? isn’t it too risky to not have our own infrastructure?\nIs de-centralization the solution to cheap AI serving? since we don’t have the money to pay for everyones compute, then we should just use the decentralized and distributed compute on everyone’s phone? Can we expect to have enough power on our smartphones to run useful AI on our phones? if not in 2 years (Moore’s law?), in how many years? Can Argentina and Latam prepare for when this happens?",
+    "crumbs": [
+      "Design Document"
+    ]
+  },
+  {
+    "objectID": "train.html",
+    "href": "train.html",
+    "title": "Training",
+    "section": "",
+    "text": "Note: Remember to install all required dependencies and ensure compatibility with your hardware before initiating the training process.",
+    "crumbs": [
+      "Training"
+    ]
+  },
+  {
+    "objectID": "setup.html",
+    "href": "setup.html",
+    "title": "Setup",
+    "section": "",
+    "text": "We are using the following environment:\n\n# add func\n\nTo build and run the Docker image:\nchmod +x run_docker.sh\n./run_docker.sh\nYou can also use VSCode’s Docker extension (configs at .devcontainer/):\n\nMake sure you have the Docker extension installed in VS Code.\nOpen the Docker view in VS Code (usually in the left sidebar with the Docker whale icon).\nUnder the “Images” section, you should see the image you built listed.\nRight-click on the image and select “Run Interactive” or “Run” to start a container from that image.\nCONTINUE THIS\n\nYou also need to login to huggingface’s cli to get the foundation models:\nhuggingface-cli login",
+    "crumbs": [
+      "Setup"
+    ]
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "tango",
+    "section": "",
+    "text": "Python 3.10 or later\nCUDA-compatible GPU (CUDA 11.8 recommended)\nGit",
+    "crumbs": [
+      "tango"
+    ]
+  },
+  {
+    "objectID": "index.html#prerequisites",
+    "href": "index.html#prerequisites",
+    "title": "tango",
+    "section": "",
+    "text": "Python 3.10 or later\nCUDA-compatible GPU (CUDA 11.8 recommended)\nGit",
+    "crumbs": [
+      "tango"
+    ]
+  },
+  {
+    "objectID": "index.html#installation",
+    "href": "index.html#installation",
+    "title": "tango",
+    "section": "Installation",
+    "text": "Installation\n\nClone the repository:\ngit clone https://github.com/lexia-ar/tango.git\ncd tango\nCreate and activate a virtual environment (optional but recommended):\npython3 -m venv venv\nsource venv/bin/activate  # On Windows, use `venv\\Scripts\\activate`\nInstall PyTorch with CUDA support:\npip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118\nInstall the required packages:\npip install -r requirements.txt\nInstal fsdp_qlora:\ngit clone https://github.com/AnswerDotAI/fsdp_qlora.git\nInstall HQQ:\ngit clone https://github.com/mobiusml/hqq.git\ncd hqq\npip install .\ncd hqq/kernels\npython setup_cuda.py install\ncd ../../..\nLog into HuggingFace CLI\nhuggingface-cli login",
+    "crumbs": [
+      "tango"
+    ]
+  },
+  {
+    "objectID": "index.html#usage",
+    "href": "index.html#usage",
+    "title": "tango",
+    "section": "Usage",
+    "text": "Usage\nTo run the training script, use the following command:\npython train.py [arguments]\n\nImportant Arguments\n\n--world_size: Number of GPUs to use. -1 = all available GPUs.\n--train_type: Training type (e.g., “qlora”, “full”, “lora”, “custom_qlora”)\n--batch_size: Batch size per GPU\n--num_epochs: Number of training epochs\n--dataset: Dataset to use (e.g., “alpaca”, “alpaca_sample”, “dummy”)\n--model_name: Model to train (e.g., “meta-llama/Llama-2-7b-hf”)\n--precision: Training precision (e.g., “bf16”, “fp32”)\n\nFor a full list of arguments and their descriptions, run:\npython train.py --help\n\n\nQuick run\npython train.py \\\n--model_name meta-llama/Llama-2-70b-hf \\\n--batch_size 2 \\\n--context_length 512 \\\n--precision bf16 \\\n--train_type qlora \\\n--use_gradient_checkpointing true \\\n--use_cpu_offload true \\\n--dataset alpaca \\\n--reentrant_checkpointing true\nthis uses over 130gb of cpu ram, but note you can use swap memory. note that if you don’t use cpu offloading (use_cpu_offload false), ram usage will be much lower.",
+    "crumbs": [
+      "tango"
+    ]
+  },
+  {
+    "objectID": "index.html#running-jupyter-notebook",
+    "href": "index.html#running-jupyter-notebook",
+    "title": "tango",
+    "section": "Running Jupyter Notebook",
+    "text": "Running Jupyter Notebook\nTo run Jupyter Notebook for interactive development:\n\nStart Jupyter Notebook:\njupyter notebook\nOpen your browser and go to http://localhost:8888",
+    "crumbs": [
+      "tango"
+    ]
+  },
+  {
+    "objectID": "index.html#notes",
+    "href": "index.html#notes",
+    "title": "tango",
+    "section": "Notes",
+    "text": "Notes\n\nMake sure your CUDA version is compatible with your GPU. You can check supported architectures and adjust the TORCH_CUDA_ARCH_LIST environment variable if needed.\nThe project uses specific versions of transformers library, excluding versions 4.38.* and 4.39.*. If you encounter issues, you may need to adjust the version constraints.\nFor optimal performance, ensure you have the latest NVIDIA drivers installed for your GPU.",
+    "crumbs": [
+      "tango"
+    ]
+  },
+  {
+    "objectID": "index.html#troubleshooting",
+    "href": "index.html#troubleshooting",
+    "title": "tango",
+    "section": "Troubleshooting",
+    "text": "Troubleshooting\nIf you encounter any issues with CUDA or GPU support, make sure: 1. Your NVIDIA drivers are up to date 2. The installed PyTorch version matches your CUDA version 3. Your GPU is CUDA-compatible and supported by the installed PyTorch version",
+    "crumbs": [
+      "tango"
+    ]
+  },
+  {
+    "objectID": "index.html#contributing",
+    "href": "index.html#contributing",
+    "title": "tango",
+    "section": "Contributing",
+    "text": "Contributing\nask the pibes",
+    "crumbs": [
+      "tango"
+    ]
+  },
+  {
+    "objectID": "reference/alpaca_finetunning_with_wandb.html",
+    "href": "reference/alpaca_finetunning_with_wandb.html",
+    "title": "From Llama to Alpaca: Finetunning and LLM with Weights & Biases",
+    "section": "",
+    "text": "# !pip install wandb transformers",
+    "crumbs": [
+      "reference",
+      "From Llama to Alpaca: Finetunning and LLM with Weights & Biases"
+    ]
+  },
+  {
+    "objectID": "reference/alpaca_finetunning_with_wandb.html#prepare-your-instruction-dataset",
+    "href": "reference/alpaca_finetunning_with_wandb.html#prepare-your-instruction-dataset",
+    "title": "From Llama to Alpaca: Finetunning and LLM with Weights & Biases",
+    "section": "Prepare your Instruction Dataset",
+    "text": "Prepare your Instruction Dataset\nAn Instruction dataset is a list of instructions/outputs pairs that are relevant to your own domain. For instance it could be question and answers from an specific domain, problems and solution for a technical domain, or just instruction and outputs. A typical example is “Write me a Python script to read a jsonL file and print the first 5 lines” and the model would output something like:\nimport json\n\nfname = \"my_file.json\"\n\n# read file from fname\nwith open(fname, \"r\") as f:\n    data = json.load(f)\n\nprint(data[0:5])\nSo let’s explore how one could do this?\nAfter grabbing a finetuned model and curated your own dataset, how do I create a dataset that has the right format to fine tune a model?\nLet’s grab the Alpaca (GPT-4 curated instructions and outputs) dataset:\n\n# !wget https://raw.githubusercontent.com/Instruction-Tuning-with-GPT-4/GPT-4-LLM/main/data/alpaca_gpt4_data.json\n\nLet’s load the dataset\n\nimport json\n\ndataset_file = \"alpaca_gpt4_data.json\"\n\nwith open(dataset_file, \"r\") as f:\n    alpaca = json.load(f)\n\n\ntype(alpaca), alpaca[0:3], len(alpaca)\n\nSo the dataset has instruction and outputs. The model is trained to predict the next token, so one option would be just to concat both, and train on that. We ideally format the prompt in a way that we make explicit where is the input and output. Let’s log the dataset to W&B so we keep everything organised\n\nimport wandb\n\n# log to wandb\nwith wandb.init(project=\"alpaca_ft\"):\n    at = wandb.Artifact(\n        name=\"alpaca_gpt4\", \n        type=\"dataset\",\n        description=\"A GPT4 generated Alpaca like dataset for instruction finetunning\",\n        metadata={\"url\":\"https://github.com/Instruction-Tuning-with-GPT-4/GPT-4-LLM#how-good-is-the-data\"},\n    )\n    at.add_file(dataset_file)\n\n    # log as a table\n    table = wandb.Table(columns=list(alpaca[0].keys()))\n    for row in alpaca:\n        table.add_data(*row.values())\n    wandb.log({\"alpaca_gpt4_table\": table})\n\n\nTrain/Eval Split\n\nimport random\n\nseed = 42\n\nrandom.seed(seed)\nrandom.shuffle(alpaca)  # this could also be a parameter\n\n\ntrain_dataset = alpaca[:-1000]\neval_dataset = alpaca[-1000:]\n\nWe should save the split to W&B\n\nimport pandas as pd\n\ntrain_df = pd.DataFrame(train_dataset)\neval_df = pd.DataFrame(eval_dataset)\n\ntrain_table = wandb.Table(dataframe=train_df)\neval_table  = wandb.Table(dataframe=eval_df)\n\ntrain_df.to_json(\"alpaca_gpt4_train.jsonl\", orient='records', lines=True)\neval_df.to_json(\"alpaca_gpt4_eval.jsonl\", orient='records', lines=True)\n\nwith wandb.init(project=\"alpaca_ft\", job_type=\"split_data\"):\n    at = wandb.Artifact(\n        name=\"alpaca_gpt4_splitted\", \n        type=\"dataset\",\n        description=\"A GPT4 generated Alpaca like dataset for instruction finetunning\",\n        metadata={\"url\":\"https://github.com/Instruction-Tuning-with-GPT-4/GPT-4-LLM#how-good-is-the-data\"},\n    )\n    at.add_file(\"alpaca_gpt4_train.jsonl\")\n    at.add_file(\"alpaca_gpt4_eval.jsonl\")\n    wandb.log_artifact(at)\n    wandb.log({\"train_dataset\":train_table, \"eval_dataset\":eval_table})\n\nLet’s log the dataset also as a table so we can inspect it on the workspace.\n\ndef prompt_no_input(row):\n    return (\"Below is an instruction that describes a task. \"\n            \"Write a response that appropriately completes the request.\\n\\n\"\n            \"### Instruction:\\n{instruction}\\n\\n### Response:\\n\").format_map(row)\n\n\nrow = alpaca[0]\nprint(prompt_no_input(row))\n\nSome other instruction have some context in the input variable`\n\nrow\n\n\ndef prompt_input(row):\n    return (\"Below is an instruction that describes a task, paired with an input that provides further context. \"\n            \"Write a response that appropriately completes the request.\\n\\n\"\n            \"### Instruction:\\n{instruction}\\n\\n### Input:\\n{input}\\n\\n### Response:\\n\").format_map(row)\n\n\nrow = alpaca[232]\nprint(prompt_input(row))\n\n\nBut you are leaving the output out!!! Yes, but we can just concat that afterwards. Let’s deal with the prompt now, we can add the output later with the right amount of padding.\n\nAnd the refactored function\n\ndef create_alpaca_prompt(row):\n    return prompt_no_input(row) if row[\"input\"] == \"\" else prompt_input(row)",
+    "crumbs": [
+      "reference",
+      "From Llama to Alpaca: Finetunning and LLM with Weights & Biases"
+    ]
+  },
+  {
+    "objectID": "reference/alpaca_finetunning_with_wandb.html#why-are-we-doing-all-this",
+    "href": "reference/alpaca_finetunning_with_wandb.html#why-are-we-doing-all-this",
+    "title": "From Llama to Alpaca: Finetunning and LLM with Weights & Biases",
+    "section": "Why are we doing all this?",
+    "text": "Why are we doing all this?\nLet’s load back the artifact we uploaded\n\nimport json\nfrom wandb import Api\n\napi = Api()\nartifact = api.artifact('capecape/alpaca_ft/alpaca_gpt4_splitted:v4', type='dataset')\ndataset_dir = artifact.download()\n\ndef load_jsonl(file_path):\n    data = []\n    with open(file_path, 'r') as file:\n        for line in file:\n            data.append(json.loads(line))\n    return data\n    \ntrain_dataset = load_jsonl(f\"{dataset_dir}/alpaca_gpt4_train.jsonl\")\neval_dataset = load_jsonl(f\"{dataset_dir}/alpaca_gpt4_eval.jsonl\")\n\nBecause we need to tokenize this dataset in a very particular way, if we want the model to learn to predict the output.\n\ntrain_prompts = [create_alpaca_prompt(row) for row in train_dataset]\neval_prompts = [create_alpaca_prompt(row) for row in eval_dataset]\n\n\nprint(train_prompts[0])\n\nWe need to process the targets and add the End Of String token (EOS) to the results. For LLama this is: \"&lt;/s&gt;\"\n\ndef pad_eos(ds):\n    EOS_TOKEN = \"&lt;/s&gt;\"\n    return [f\"{row['output']}{EOS_TOKEN}\" for row in ds]\n\n\ntrain_outputs = pad_eos(train_dataset)\neval_outputs = pad_eos(eval_dataset)\ntrain_outputs[0]\n\nCool! but why we have everything separated? Let’s sore the “final” version on a variable called examples\n\ntrain_dataset = [{\"prompt\":s, \"output\":t, \"example\": s + t} for s, t in zip(train_prompts, train_outputs)]\neval_dataset = [{\"prompt\":s, \"output\":t, \"example\": s + t} for s, t in zip(eval_prompts, eval_outputs)]\n\nThis is what the model need to see and learn =)\n\nprint(train_dataset[0][\"example\"])",
+    "crumbs": [
+      "reference",
+      "From Llama to Alpaca: Finetunning and LLM with Weights & Biases"
+    ]
+  },
+  {
+    "objectID": "reference/alpaca_finetunning_with_wandb.html#converting-text-to-numbers-tokenizer",
+    "href": "reference/alpaca_finetunning_with_wandb.html#converting-text-to-numbers-tokenizer",
+    "title": "From Llama to Alpaca: Finetunning and LLM with Weights & Biases",
+    "section": "Converting text to numbers: Tokenizer",
+    "text": "Converting text to numbers: Tokenizer\nWe need to convert the dataset into tokens, you can quickly do this with the workhorse of the transformers library, the Tokenizer! This function does a lot of heavy lifting besides tokenizing the text.\n\nIt tokenizes the text\nConverts the outputs to PyTorch tensors\nPads the inputs to match length and more!\n\n\nimport torch\nfrom transformers import AutoModelForCausalLM, AutoTokenizer\n\n\nmodel_id = 'meta-llama/Llama-2-7b-hf'\ntokenizer = AutoTokenizer.from_pretrained(model_id)\ntokenizer.pad_token = tokenizer.eos_token\n\n\ntokenizer.encode(\"My experiments are going strong!\")\n\n\ntokenizer.encode(\"My experiments are going strong!\", padding='max_length', max_length=10)\n\n\ntokenizer.encode(\"My experiments are going strong!\", \n                 padding='max_length', \n                 max_length=10,\n                 return_tensors=\"pt\")\n\n\ntokenizer([\"My experiments are going strong!\", \n           \"I love Llamas\"], \n          padding='max_length', \n          # padding='longest',\n          max_length=10,\n          return_tensors=\"pt\")\n\n\nPacking\nWe will pack multiple short examples into a longer chunk, so we can train more efficiently!\nThe main idea here is that the instruction/output samples are short, so let’s concatenate a bunch of them together separated by the EOS token. We can also pre-tokenize and pre-pack the dataset and make everything faster! If we define a max_seq_len = 1024 the code to pack would look something like this:\n\nmax_sequence_len = 1024\n\ndef pack(dataset, max_seq_len=max_sequence_len):\n    tkds_ids = tokenizer([s[\"example\"] for s in dataset])[\"input_ids\"]\n    \n    all_token_ids = []\n    for tokenized_input in tkds_ids:\n        all_token_ids.extend(tokenized_input)# + [tokenizer.eos_token_id])\n    \n    print(f\"Total number of tokens: {len(all_token_ids)}\")\n    packed_ds = []\n    for i in range(0, len(all_token_ids), max_seq_len+1):\n        input_ids = all_token_ids[i : i + max_seq_len+1]\n        if len(input_ids) == (max_seq_len+1):\n            packed_ds.append({\"input_ids\": input_ids[:-1], \"labels\": input_ids[1:]})  # this shift is not needed if using the model.loss\n    return packed_ds\n\n\ntrain_ds_packed = pack(train_dataset)\neval_ds_packed = pack(eval_dataset)\nlen(train_ds_packed)\n\nDoing so, we end up with a little more than 11k sequences of lenght 1024.\n\n\nDataLoader\nAs we are training for completion, the labels (or targets) will be the inputs shifted by one. We are going to train with regular Cross Entropy and predict the next token on this packed dataset.\n\nfrom torch.utils.data import DataLoader\nfrom transformers import default_data_collator\n\ntorch.manual_seed(seed)\nbatch_size = 16  # I have an A100 GPU with 40GB of RAM 😎\n\ntrain_dataloader = DataLoader(\n    train_ds_packed,\n    batch_size=batch_size,\n    collate_fn=default_data_collator, # we don't need any special collator 😎\n)\n\neval_dataloader = DataLoader(\n    eval_ds_packed,\n    batch_size=batch_size,\n    collate_fn=default_data_collator,\n    shuffle=False,\n)\n\nIt is always a good idea to check how does a batch looks like, you can quickly do this by sampling from the DataLoader\n\nb = next(iter(train_dataloader))\nb\n\nWe can alos decode the batch just to be super sure\n\ntokenizer.decode(b[\"input_ids\"][0])[:250]\n\n\ntokenizer.decode(b[\"labels\"][0])[:250]",
+    "crumbs": [
+      "reference",
+      "From Llama to Alpaca: Finetunning and LLM with Weights & Biases"
+    ]
+  },
+  {
+    "objectID": "reference/alpaca_finetunning_with_wandb.html#train",
+    "href": "reference/alpaca_finetunning_with_wandb.html#train",
+    "title": "From Llama to Alpaca: Finetunning and LLM with Weights & Biases",
+    "section": "Train",
+    "text": "Train\nI like storing all my hyperparameters into a SimpleNamespace, it’s like a dict but with .dot attribute access. Then I can access my batch size by doing config.batch_size instead of config[“batch_size”].\n\nfrom types import SimpleNamespace\n\ngradient_accumulation_steps = 2\n\nconfig = SimpleNamespace(\n    model_id='meta-llama/Llama-2-7b-hf',\n    dataset_name=\"alpaca-gpt4\",\n    precision=\"bf16\",  # faster and better than fp16, requires new GPUs\n    n_freeze=24,  # How many layers we don't train, LLama 7B has 32.\n    lr=2e-4,\n    n_eval_samples=10, # How many samples to generate on validation\n    max_seq_len=max_sequence_len, # Lenght of the sequences to pack\n    epochs=3,  # we do 3 pasess over the dataset.\n    gradient_accumulation_steps=gradient_accumulation_steps,  # evey how many iterations we update the gradients, simulates larger batch sizes\n    batch_size=batch_size,  # what my GPU can handle, depends on how many layers are we training  \n    log_model=False,  # upload the model to W&B?\n    gradient_checkpointing = True,  # saves even more memory\n    freeze_embed = True,  # why train this? let's keep them frozen ❄️\n    seed=seed,\n)\n\nconfig.total_train_steps = config.epochs * len(train_dataloader) // config.gradient_accumulation_steps\n\n\nprint(f\"We will train for {config.total_train_steps} steps and evaluate every epoch\")\n\nWe first get a pretrained model with some configuration parameters\n\nmodel = AutoModelForCausalLM.from_pretrained(\n    config.model_id,\n    device_map=0,\n    trust_remote_code=True,\n    low_cpu_mem_usage=True,\n    torch_dtype=torch.bfloat16,\n    use_cache=False,\n)\n\n\ndef param_count(m):\n    params = sum([p.numel() for p in m.parameters()])/1_000_000\n    trainable_params = sum([p.numel() for p in m.parameters() if p.requires_grad])/1_000_000\n    print(f\"Total params: {params:.2f}M, Trainable: {trainable_params:.2f}M\")\n    return params, trainable_params\n\nparams, trainable_params = param_count(model)\n\nTraining the full models is expensive, but if you have a GPU that can fit the full model, you can skip this part. Let’s just train the last 8 layers of the model (Llama2-7B has 32)\n\n# freeze layers (disable gradients)\nfor param in model.parameters(): param.requires_grad = False\nfor param in model.lm_head.parameters(): param.requires_grad = True\nfor param in model.model.layers[config.n_freeze:].parameters(): param.requires_grad = True\n\n\n# Just freeze embeddings for small memory decrease\nif config.freeze_embed:\n    model.model.embed_tokens.weight.requires_grad_(False);\n\nand you can also use gradient checkpointing to save even more (this makes training slower, how much it will depend on your particular configuration). There is a nice article on the Huggingface website about how to fit large models on memory, I encourage you to check it!\n\n# save more memory\nif config.gradient_checkpointing:\n    model.gradient_checkpointing_enable()\n\n\nparams, trainable_params = param_count(model)\n\n\nOptimizer\nWe setup the standard optimization stuff…\n\nfrom transformers import get_cosine_schedule_with_warmup\n\noptim = torch.optim.Adam(model.parameters(), lr=config.lr, betas=(0.9,0.99), eps=1e-5)\nscheduler = get_cosine_schedule_with_warmup(\n    optim,\n    num_training_steps=config.total_train_steps,\n    num_warmup_steps=config.total_train_steps // 10,\n)\n\n\ndef loss_fn(x, y):\n    \"A Flat CrossEntropy\" \n    return torch.nn.functional.cross_entropy(x.view(-1, x.shape[-1]), y.view(-1))",
+    "crumbs": [
+      "reference",
+      "From Llama to Alpaca: Finetunning and LLM with Weights & Biases"
+    ]
+  },
+  {
+    "objectID": "reference/alpaca_finetunning_with_wandb.html#testing-during-training",
+    "href": "reference/alpaca_finetunning_with_wandb.html#testing-during-training",
+    "title": "From Llama to Alpaca: Finetunning and LLM with Weights & Biases",
+    "section": "Testing during training",
+    "text": "Testing during training\nWe are almost there, let’s create a simple function to sample from the model now and then, to visualy see what the models is outputting! Let’s wrap the model.generate method for simplicity. You can grab the defaults sampling parameters from the GenerationConfig and passing the corresponding model_id. This will grab you the defaults for parameters like temperature, top p, etc…\n\nfrom types import SimpleNamespace\nfrom transformers import GenerationConfig\n\ngen_config = GenerationConfig.from_pretrained(config.model_id)\ntest_config = SimpleNamespace(\n    max_new_tokens=256,\n    gen_config=gen_config)\n\n\ndef generate(prompt, max_new_tokens=test_config.max_new_tokens, gen_config=gen_config):\n    tokenized_prompt = tokenizer(prompt, return_tensors='pt')['input_ids'].cuda()\n    with torch.inference_mode():\n        output = model.generate(tokenized_prompt, \n                            max_new_tokens=max_new_tokens, \n                            generation_config=gen_config)\n    return tokenizer.decode(output[0][len(tokenized_prompt[0]):], skip_special_tokens=True)\n\nLoL 🤷\n\nprompt = eval_dataset[14][\"prompt\"]\nprint(prompt + generate(prompt, 128))\n\nWe can log a Table with those results to the project every X steps\n\nimport wandb\nfrom tqdm.auto import tqdm\n\ndef prompt_table(examples, log=False, table_name=\"predictions\"):\n    table = wandb.Table(columns=[\"prompt\", \"generation\", \"concat\", \"output\", \"max_new_tokens\", \"temperature\", \"top_p\"])\n    for example in tqdm(examples, leave=False):\n        prompt, gpt4_output = example[\"prompt\"], example[\"output\"]\n        out = generate(prompt, test_config.max_new_tokens, test_config.gen_config)\n        table.add_data(prompt, out, prompt+out, gpt4_output, test_config.max_new_tokens, test_config.gen_config.temperature, test_config.gen_config.top_p)\n    if log:\n        wandb.log({table_name:table})\n    return table\n\ndef to_gpu(tensor_dict):\n    return {k: v.to('cuda') for k, v in tensor_dict.items()}\n\nclass Accuracy:\n    \"A simple Accuracy function compatible with HF models\"\n    def __init__(self):\n        self.count = 0\n        self.tp = 0.\n    def update(self, logits, labels):\n        logits, labels = logits.argmax(dim=-1).view(-1).cpu(), labels.view(-1).cpu()\n        tp = (logits == labels).sum()\n        self.count += len(logits)\n        self.tp += tp\n        return tp / len(logits)\n    def compute(self):\n        return self.tp / self.count\n\nYou can also quickly add validation if you feel so, the table can be also created at this step:\n\n@torch.no_grad()\ndef validate():\n    model.eval();\n    eval_acc = Accuracy()\n    loss, total_steps = 0., 0\n    for step, batch in enumerate(pbar:=tqdm(eval_dataloader, leave=False)):\n        pbar.set_description(f\"doing validation\")\n        batch = to_gpu(batch)\n        total_steps += 1\n        with torch.amp.autocast(\"cuda\", dtype=torch.bfloat16):\n            out = model(**batch)\n            loss += loss_fn(out.logits, batch[\"labels\"])  # you could use out.loss and not shift the dataset\n        eval_acc.update(out.logits, batch[\"labels\"])\n    # we log results at the end\n    wandb.log({\"eval/loss\": loss.item() / total_steps,\n               \"eval/accuracy\": eval_acc.compute()})\n    prompt_table(eval_dataset[:config.n_eval_samples], log=True)\n    model.train();\n\n\nfrom pathlib import Path\ndef save_model(model, model_name, models_folder=\"models\", log=False):\n    \"\"\"Save the model to wandb as an artifact\n    Args:\n        model (nn.Module): Model to save.\n        model_name (str): Name of the model.\n        models_folder (str, optional): Folder to save the model. Defaults to \"models\".\n    \"\"\"\n    model_name = f\"{wandb.run.id}_{model_name}\"\n    file_name = Path(f\"{models_folder}/{model_name}\")\n    file_name.parent.mkdir(parents=True, exist_ok=True)\n    model.save_pretrained(file_name, safe_serialization=True)\n    # save tokenizer for easy inference\n    tokenizer = AutoTokenizer.from_pretrained(model.name_or_path)\n    tokenizer.save_pretrained(model_name)\n    if log:\n        at = wandb.Artifact(model_name, type=\"model\")\n        at.add_dir(file_name)\n        wandb.log_artifact(at)\n\nLet’s define a loop that compute evaluation and logs a Table with model predictions",
+    "crumbs": [
+      "reference",
+      "From Llama to Alpaca: Finetunning and LLM with Weights & Biases"
+    ]
+  },
+  {
+    "objectID": "reference/alpaca_finetunning_with_wandb.html#the-actual-loop",
+    "href": "reference/alpaca_finetunning_with_wandb.html#the-actual-loop",
+    "title": "From Llama to Alpaca: Finetunning and LLM with Weights & Biases",
+    "section": "The actual Loop",
+    "text": "The actual Loop\nIt’s actually nothing fancy, and very short! It has: - Gradient accumulation and gradient scaling - sampling and model checkpoint saving (this trains very fast, no need to save multiple checkpoints) - We compute token accuracy, better metric than loss.\n\nwandb.init(project=\"alpaca_ft\", # the project I am working on\n           tags=[\"baseline\",\"7b\"],\n           job_type=\"train\",\n           config=config) # the Hyperparameters I want to keep track of\n\n# Training\nacc = Accuracy()\nmodel.train()\ntrain_step = 0\nfor epoch in tqdm(range(config.epochs)):\n    for step, batch in enumerate(tqdm(train_dataloader)):\n        batch = to_gpu(batch)\n        with torch.amp.autocast(\"cuda\", dtype=torch.bfloat16):\n            out = model(**batch)\n            loss = loss_fn(out.logits, batch[\"labels\"]) / config.gradient_accumulation_steps  # you could use out.loss and not shift the dataset  \n            loss.backward()\n        if step%config.gradient_accumulation_steps == 0:\n            # we can log the metrics to W&B\n            wandb.log({\"train/loss\": loss.item() * config.gradient_accumulation_steps,\n                       \"train/accuracy\": acc.update(out.logits, batch[\"labels\"]),\n                       \"train/learning_rate\": scheduler.get_last_lr()[0],\n                       \"train/global_step\": train_step})\n            optim.step()\n            scheduler.step()\n            optim.zero_grad(set_to_none=True)\n            train_step += 1\n    validate()\n\n\n# we save the model checkpoint at the end\nsave_model(model, model_name=config.model_id.replace(\"/\", \"_\"), models_folder=\"models/\", log=config.log_model)\n    \nwandb.finish()\n\nThis trains in around 60 minutes on an A100.",
+    "crumbs": [
+      "reference",
+      "From Llama to Alpaca: Finetunning and LLM with Weights & Biases"
+    ]
+  },
+  {
+    "objectID": "reference/alpaca_finetunning_with_wandb.html#full-eval-dataset-evaluation",
+    "href": "reference/alpaca_finetunning_with_wandb.html#full-eval-dataset-evaluation",
+    "title": "From Llama to Alpaca: Finetunning and LLM with Weights & Biases",
+    "section": "Full Eval Dataset evaluation",
+    "text": "Full Eval Dataset evaluation\nLet’s log a table with model predictions on the eval_dataset (or at least the 250 first samples)\n\nwith wandb.init(project=\"alpaca_ft\", # the project I am working on\n           job_type=\"eval\",\n           config=config): # the Hyperparameters I want to keep track of\n    model.eval();\n    prompt_table(eval_dataset[:250], log=True, table_name=\"eval_predictions\")",
+    "crumbs": [
+      "reference",
+      "From Llama to Alpaca: Finetunning and LLM with Weights & Biases"
+    ]
+  }
+]
