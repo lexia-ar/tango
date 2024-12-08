@@ -1,7 +1,8 @@
-  GNU nano 7.2                                    quant_tango70b_bnb_4b.py                                              import torch
+import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
 
-bnb_config = BitsAndBytesConfig(load_in_4bit=True,bnb_4bit_use_double_quant=True, bnb_4bit_quant_type="nf4", bnb_4bit_c>
+
+bnb_config = BitsAndBytesConfig(load_in_4bit=True,bnb_4bit_use_double_quant=True, bnb_4bit_quant_type="nf4", bnb_4bit_compute_dtype=torch.bfloat16)
 model_id = 'Model-SafeTensors/Llama-3.1-Tango-70b'
 tokenizer = AutoTokenizer.from_pretrained(model_id)
 
